@@ -1,0 +1,15 @@
+This is an arduino sketch that acts as a simple door controller.
+It's supposed to read from an RFID reader and send out the code over
+serial.  Also it takes single character commands to lock and unlock
+a door.
+
+I've also included an RFID emulator sketch which is supposed to 
+emulate an RFID reader.
+
+NOTE: I'm not sure if this code works or not because I had two arduinos
+to test with and I couldn't get them to communicate via the Wiegand 
+protocol.  I'm not sure if I wired them together wrong or if there's 
+something wrong w/ the code.
+
+Shawn Wilson
+Sept. 11, 2013
