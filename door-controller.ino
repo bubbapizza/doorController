@@ -1,12 +1,26 @@
 /************
+ *
+ *        Copyright (C) 2013 Shawn Wilson
+ *        shawn@ch2a.ca
+ *        
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  * 
  *  This program is a simple rfid door controller.  It provides a serial 
  *  interface for reading RFID cards and controlling a magnetic door lock,
  *  a green led, a red led and a piezo buzzer.
  * 
- *  Shawn Wilson
- *  Sept 13, 2013
- *
  *************/
 
 #include <SoftwareSerial.h>
@@ -124,46 +138,55 @@ void loop() {
    char cmdChr;
    char rfidChr;
    String rfidCode = "";
+   boolean buildCode = false;
 
 
-   /* See if we got any info from the RFID reader. */
+   /***** RFID CARD *****/
+
    if (rfidReader.available()) {
 
-      /* Keep reading till we run out of bytes or we have a code. */
+      /* Keep reading till we run out of bytes. */
       while (rfidReader.available()) {
          rfidChr = rfidReader.read();
 
          /* If we got a start byte, then start storing the code. */
          if (rfidChr == RFID_START_BYTE) {
+            buildCode = true;
+            rfidCode = "";
          
          /* If we got a stop byte, then make sure we have enough
             characters to build a code.  Otherwise, we have junk. */
-         } else if (rfidByte == RFID_STOP_BYTE) {
+         } else if (rfidChr == RFID_STOP_BYTE) {
 
-            if (rfidCode.length() == RFID_NUM_BYTES) {
+            if ((buildCode == true) && 
+                (rfidCode.length() == RFID_NUM_BYTES)) {
                Serial.print("CARD ");
                Serial.println(rfidCode);
             } /* endif */
 
+            buildCode = false;
             rfidCode = "";
 
          /* We got a regular character so build the code. */
-         } else {
-            rfidCode += rfidChr;
+         } else if (buildCode == true) {
+
+            /* Check to make sure we still have a valid code. */
+            if (rfidCode.length() < RFID_NUM_BYTES) {
+               rfidCode += rfidChr;
+
+            /* The code is too long, we have garbage somewhere. */
+            } else {
+               buildCode = false;
+               rfidCode = "";
+            } /* endif */
          } /* endif */
+
+      } /* endwhile */
             
 
-      
-      
 
-      /* When we get a card, print the card info in hex followed
-         by the card type (8, 26 or 34). */
-      Serial.print("CARD ");
-      Serial.print(wg.getCode(), HEX);
-      Serial.print(" ");
-      Serial.println(wg.getWiegandType());    
+   /****** SERIAL COMMANDS *****/ 
 
-   /* Check to see if we have any serial commands that came in. */
    } else if (Serial.available() > 0) {
          
          inChr = Serial.read();
