@@ -1,4 +1,19 @@
 /************
+ *        Copyright (C) 2013 Shawn Wilson
+ *        shawn@ch2a.ca
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * 
  *  This program is a simple rfid door controller.  It provides a serial 
  *  interface for reading RFID cards and controlling a magnetic door lock.
@@ -6,9 +21,6 @@
  *  Pins 2 & 3 read incoming RFID data using the Wiegand protocol.  The
  *  Wiegand protocol is an ancient de-facto standard for door locks, etc.
  *  DOOR_LOCK_PIN controls the 
- * 
- *  Shawn Wilson
- *  Sept 11, 2013
  *
  *************/
 
