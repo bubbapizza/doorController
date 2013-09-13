@@ -1,14 +1,11 @@
 /************
  * 
  *  This program is a simple rfid door controller.  It provides a serial 
- *  interface for reading RFID cards and controlling a magnetic door lock.
- *
- *  Pins 2 & 3 read incoming RFID data using the Wiegand protocol.  The
- *  Wiegand protocol is an ancient de-facto standard for door locks, etc.
- *  DOOR_LOCK_PIN controls the 
+ *  interface for reading RFID cards and controlling a magnetic door lock,
+ *  a green led, a red led and a piezo buzzer.
  * 
  *  Shawn Wilson
- *  Sept 11, 2013
+ *  Sept 13, 2013
  *
  *************/
 
@@ -32,6 +29,14 @@
    Tx pin is unused. */
 #define RFID_RX_PIN 8
 #define RFID_TX_PIN 9
+
+/* When the RFID reader detects a card, it sends 12 bytes over the 
+   serial line.  The first byte is 0x0A and the last byte is 0x0A. 
+   Here, we just set up some constants for those values. */
+#define RFID_NUM_BYTES 10
+#define RFID_START_BYTE 10
+#define RFID_STOP_BYTE 13
+
 
 /* Set up commands triggered by incoming characters over serial. */
 #define CMD_LOCK 'l'
@@ -116,11 +121,40 @@ void setup() {
  **********/
 void loop() {
 
-   char inChr;
+   char cmdChr;
+   char rfidChr;
+   String rfidCode = "";
 
-   /* See if we got any info that came in over the Wiegand protocol. 
-      i.e.  See if a card was swiped. */
+
+   /* See if we got any info from the RFID reader. */
    if (rfidReader.available()) {
+
+      /* Keep reading till we run out of bytes or we have a code. */
+      while (rfidReader.available()) {
+         rfidChr = rfidReader.read();
+
+         /* If we got a start byte, then start storing the code. */
+         if (rfidChr == RFID_START_BYTE) {
+         
+         /* If we got a stop byte, then make sure we have enough
+            characters to build a code.  Otherwise, we have junk. */
+         } else if (rfidByte == RFID_STOP_BYTE) {
+
+            if (rfidCode.length() == RFID_NUM_BYTES) {
+               Serial.print("CARD ");
+               Serial.println(rfidCode);
+            } /* endif */
+
+            rfidCode = "";
+
+         /* We got a regular character so build the code. */
+         } else {
+            rfidCode += rfidChr;
+         } /* endif */
+            
+
+      
+      
 
       /* When we get a card, print the card info in hex followed
          by the card type (8, 26 or 34). */
