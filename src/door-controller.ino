@@ -100,9 +100,11 @@ boolean buildCode = false;
  **********/
 void printStatus() {
    Serial.println(MSG_STATUS_HEADER);
+   Serial.print("VERSION ");
+   Serial.println(VERSION);
 
    /* Get RFID reader status. */
-   if (digitalRead(RFID_ENABLE_PIN)) {
+   if (!digitalRead(RFID_ENABLE_PIN)) {
       Serial.println(MSG_RFID_ENABLED);
    } else {
       Serial.println(MSG_RFID_DISABLED);
