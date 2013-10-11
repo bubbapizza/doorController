@@ -1,17 +1,11 @@
 This is an arduino sketch that acts as a simple door controller.
 It reads RFID cards from a Parallax serial RFID card reader.  It also
-controls two LEDs and a piezo buzzer.  
+controls two LEDs, a piezo buzzer and a relay to open the door.  
 
 The controller has no logic in it whatsoever.  All it does is accept 
 single character commands over the serial port which can be used
 to control the lights, buzzers and rfid controller.  All logic should
 be handled by external software.
-
-I've also included a couple Arduino sketches for dealing w/ Wiegand RFID 
-card readers.  I'm not sure if the wiegand stuff actually works or not
-since I never tested it.  One sketch is an RFID emulator which is 
-supposed to emulate a wiegand card reader.  The other sketch is for 
-controlling a door using a device that speaks the wiegand protocol.
 
 Shawn Wilson
 Sept. 13, 2013
