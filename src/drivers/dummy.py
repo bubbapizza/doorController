@@ -13,6 +13,9 @@
 RANDOM_RFID_MIN_INTERVAL = 3
 RANDOM_RFID_MAX_INTERVAL = 10
 
+# This is the timeout period for waiting for an RFID card to come in.
+RFID_TIMOUT = 5
+
 
 class controller:
    """This is a dummy device driver for door controller hardware."""
@@ -27,8 +30,6 @@ class controller:
       self.green = False
       self.doorOpen = False
       self.rfid = True
-
-      self.randomRFID = False
       
 
    def lockDoor(self):
@@ -73,14 +74,9 @@ class controller:
       self.rfid = False
 
 
-   def enableRandomRFID(self):
-      """Start simulating out random RFID card swipes via the readRFID
-      function."""
-      self.randomRFID = True
-
-   def disableRandomRFID(self):
-      """Stop spitting out random RFID card numbers via the readRFID
-      function."""
-      self.randomRFID = False
-
-
+   def readRFID(self, simulate=False, timeout=RFID_TIMEOUT)
+      """Read in RFID cards.  If simulate is True, then we just randomly
+      return some RFID card numbers every now and then.  If no cards
+      are returned within RFID_TIMEOUT period, then we just return
+      a null."""
+   
