@@ -10,22 +10,7 @@
 #
 
 # This is the timeout period for waiting for an RFID card to come in.
-SERIAL_TIMOUT = 1
-
-# These are dictionary keys and values used for storing device statuses.
-DOOR = "door"
-LOCKED = "locked"
-UNLOCKED = "unlocked"
-
-GREEN = "greenLED"
-RED = "redLED"
-ON = True
-OFF = False
-
-RFID = "rfid"
-ENABLED = "enabled"
-DISABLED = "disabled"
-
+SERIAL_TIMOUT = 5
 
 
 ######## ARDUINO SERIAL PROTOCOL #########
@@ -60,6 +45,7 @@ MSG_CARD = "CARD "
 
 
 import serial
+from status import *
 
 ####### EXCEPTIONS #######
 class Error(Exception):
@@ -153,10 +139,10 @@ class controller:
       # Check to make sure we're not missing a status.  If we are, then
       # raise an error because there's something wrong w/ serial
       # communications somewhere.
-      if (DOOR in status) and (GREEN in status) and 
+      if (DOOR in status) and (GREEN in status) and \
          (RED in status) and (RFID in status):
          return status
-      else
+      else:
          raise StatusError(status)
 
 
@@ -217,10 +203,11 @@ class controller:
       self._sendCMD(CMD_RFID_DISABLE)
 
 
-   def readRFID(self)
+   def readRFID(self):
       """Wait for an RFID swipe card.  If no card is available after
       SERIAL_TIMEOUT, then it returns a None value"""
 
+      self.conn.flushInput()
       result = None
 
       # Read all the input we have and as soon as we hit a MSG_CARD
@@ -230,7 +217,6 @@ class controller:
       while line:
          if line.startswith(MSG_CARD):
             result = line.lstrip(MSG_CARD)
-            self.conn.flushInput()
             break
 
          line = self.conn.readline().strip()
