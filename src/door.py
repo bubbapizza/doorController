@@ -27,6 +27,8 @@ ctl.redON()
 # Enter the main control loop.
 While True:
 
+   # Check the door controller to see if there's an RFID card that
+   # was swiped. 
    card = readRFID()
 
    if card:

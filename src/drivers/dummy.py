@@ -17,10 +17,7 @@ RANDOM_RFID_MAX_INTERVAL = 10
 RFID_TIMOUT = 5
 
 
-# The threading package is going to be used to randomly generate some
-# RFID cards.
-import threading
-
+from status import *
 
 class controller:
    """This is a dummy device driver for door controller hardware."""
@@ -101,3 +98,4 @@ class rfidSimulator(threading.Thread):
 
    def run(self):
       """Send some random RFID card numbers."""
+      pass
