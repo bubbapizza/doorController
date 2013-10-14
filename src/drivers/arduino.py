@@ -12,11 +12,19 @@
 # This is the timeout period for waiting for an RFID card to come in.
 SERIAL_TIMOUT = 1
 
-# These are dictionary keys used for storing device statuses.
-DOOR_LOCKED = "door"
-GREEN_ON = "greenLED"
-RED_ON = "redLED"
-RFID_ENABLED = "rfid"
+# These are dictionary keys and values used for storing device statuses.
+DOOR = "door"
+LOCKED = "locked"
+UNLOCKED = "unlocked"
+
+GREEN = "greenLED"
+RED = "redLED"
+ON = True
+OFF = False
+
+RFID = "rfid"
+ENABLED = "enabled"
+DISABLED = "disabled"
 
 
 
@@ -34,7 +42,7 @@ CMD_RFID_DISABLE = 'f'
 CMD_RFID_ENABLE = 'F'
 CMD_STATUS = 's'
 
-# Thse are the message strings received from the status command.
+# These are the message strings received from the status command.
 MSG_STATUS_HEADER = "===== Door Controller Status ======"
 MSG_STATUS_FOOTER = "==================================="
 MSG_LOCK = "DOOR LOCKED"
@@ -47,9 +55,28 @@ MSG_BELL = "BELL RING"
 MSG_RFID_ENABLED = "RFID READER ENABLED"
 MSG_RFID_DISABLED = "RFID READER DISABLED"
 
+# This is the string that precedes an RFID card number
+MSG_CARD = "CARD "
+
 
 import serial
 
+####### EXCEPTIONS #######
+class Error(Exception):
+   """Base class for exceptions in this module."""
+   pass
+
+class StatusError(Error):
+   """Exception raised when the arduino status is bad/incomplete.
+
+   Attributes:
+      status -- the bad/incomplete status dictionary"""
+
+   def __init__(self, status):
+      self.status = status
+   
+
+####### CONTROLLER OBJECT #######
 
 class controller:
    """This is a device driver for arduino-based door controller hardware.
@@ -69,7 +96,17 @@ class controller:
          bytesize=serial.EIGHTBITS,
          stopbits=serial.STOPBITS_ONE,
          timeout=SERIAL_TIMEOUT) 
+      self.open()
+
+   def open(self):
+      """Open the serial connection to the arduino and flush anything
+      in the input buffer."""
       self.conn.open()
+      self.conn.flushInput()
+
+   def close(self):
+      """Close the serial connection to the arduino."""
+      self.conn.close()
 
    def _sendCMD(self, cmd):
       """Internally used to send a command over the serial port."""
@@ -87,95 +124,115 @@ class controller:
       line = self.conn.readline().strip()
       while line:
          if line == MSG_LOCK:
-            result[DOOR_LOCKED] = True
+            result[DOOR] = LOCKED
 
          elif line == MSG_UNLOCK:
-            result[DOOR_LOCKED] = False
+            result[DOOR] = UNLOCKED
 
          elif line == MSG_GREEN_ON:
-            result[GREEN_ON] = True
+            result[GREEN] = ON
 
          elif line == MSG_GREEN_OFF:
-            result[GREEN_ON] = False
+            result[GREEN] = OFF
 
          elif line == MSG_RED_ON:
-            result[RED_ON] = True
+            result[RED] = ON
 
          elif line == MSG_RED_OFF:
-            result[RED_ON] = False
+            result[RED] = OFF
 
          elif line == MSG_RFID_ENABLED:
-            result[RFID_ENABLED] = True
+            result[RFID] = ENABLED
 
          elif line == MSG_RFID_DISABLED:
-            result[RFID_ENABLED] = False
+            result[RFID] = DISABLED
             
          # Read in the next status line.
          line = self.conn.readline().strip()
 
+      # Check to make sure we're not missing a status.  If we are, then
+      # raise an error because there's something wrong w/ serial
+      # communications somewhere.
+      if (DOOR in status) and (GREEN in status) and 
+         (RED in status) and (RFID in status):
+         return status
+      else
+         raise StatusError(status)
 
+
+   def statusRFID(self):
+      """Returns whether or not RFID reading is enabled.  It returns the
+      values ENABLED or DISABLED."""
+
+      status = self._readStatus()
+      return status[RFID]
+      
+   def statusDoor(self):
+      """Returns whether the door is LOCKED or UNLOCKED."""
+
+      status = self._readStatus()
+      return status[DOOR]
+
+
+   #### COMMANDS ####
 
    def lockDoor(self):
       """Lock the door."""
-      self.doorOpen = False
-
+      self._sendCMD(CMD_DOOR_LOCK)
 
    def unlockDoor(self):
       """Unlock the door."""
-      self.doorOpen = True
+      self._sendCMD(CMD_DOOR_UNLOCK)
 
 
    def greenON(self):
       """Turn the green LED on."""
-      self.green = True
+      self._sendCMD(CMD_GREEN_ON)
 
    def greenOFF(self):
       """Turn the green LED off."""
-      self.green = False
+      self._sendCMD(CMD_GREEN_OFF)
 
 
    def redON(self):
       """Turn the red LED on."""
-      self.red = True
+      self._sendCMD(CMD_RED_ON)
 
    def redOFF(self):
       """Turn the red LED off."""
-      self.red = False
+      self._sendCMD(CMD_RED_OFF)
 
 
    def ringBell(self):
       """Ring a buzzer."""
-      print "BUZZ!!!"
+      self._sendCMD(CMD_BELL)
 
    
    def rfidON(self):
       """Enable reading of RFID cards."""
-      self.rfid = True
+      self._sendCMD(CMD_RFID_ENABLE)
 
    def rfidOFF(self):
       """Disable reading of RFID cards."""
-      self.rfid = False
+      self._sendCMD(CMD_RFID_DISABLE)
 
 
-   def readRFID(self, simulate=False, timeout=RFID_TIMEOUT)
-      """Wait for an RFID swipe card.  If simulate is True, then we 
-      just randomly return some RFID card numbers every now and then.  
-      If no cards are returned within RFID_TIMEOUT period, then we just 
-      return a None."""
+   def readRFID(self)
+      """Wait for an RFID swipe card.  If no card is available after
+      SERIAL_TIMEOUT, then it returns a None value"""
 
-   
+      result = None
 
-class rfidSimulator(threading.Thread):
-   """This is going to be a thread class that simulates people making 
-   swipes to an RFID card reader.  It just returns random RFID card
-   numbers anywhere from RANDOM_RFID_MIN_INTERVAL to
-   RANDOM_RFID_MAX_INTERVAL seconds."""
+      # Read all the input we have and as soon as we hit a MSG_CARD
+      # string, flush the input buffer and return the card number.
+      #
+      line = self.conn.readline().strip()
+      while line:
+         if line.startswith(MSG_CARD):
+            result = line.lstrip(MSG_CARD)
+            self.conn.flushInput()
+            break
 
-   def __init__(self, minTime=None, maxTime=None):
-      """Initialize the simulator settings."""
-   
-      self.minTime = RANDOM_RFID_MIN_INTERVAL if not minTime else minTime
-      self.maxTime = RANDOM_RFID_MAX_INTERVAL if not maxTime else maxTime
-
-   def run(self):
-      """Send some random RFID card numbers."""
+         line = self.conn.readline().strip()
+      
+      return result
