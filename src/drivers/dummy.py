@@ -17,6 +17,11 @@ RANDOM_RFID_MAX_INTERVAL = 10
 RFID_TIMOUT = 5
 
 
+# The threading package is going to be used to randomly generate some
+# RFID cards.
+import threading
+
+
 class controller:
    """This is a dummy device driver for door controller hardware."""
 
@@ -75,8 +80,24 @@ class controller:
 
 
    def readRFID(self, simulate=False, timeout=RFID_TIMEOUT)
-      """Read in RFID cards.  If simulate is True, then we just randomly
-      return some RFID card numbers every now and then.  If no cards
-      are returned within RFID_TIMEOUT period, then we just return
-      a null."""
+      """Wait for an RFID swipe card.  If simulate is True, then we 
+      just randomly return some RFID card numbers every now and then.  
+      If no cards are returned within RFID_TIMEOUT period, then we just 
+      return a None."""
+
    
+
+class rfidSimulator(threading.Thread):
+   """This is going to be a thread class that simulates people making 
+   swipes to an RFID card reader.  It just returns random RFID card
+   numbers anywhere from RANDOM_RFID_MIN_INTERVAL to
+   RANDOM_RFID_MAX_INTERVAL seconds."""
+
+   def __init__(self, minTime=None, maxTime=None):
+      """Initialize the simulator settings."""
+   
+      self.minTime = RANDOM_RFID_MIN_INTERVAL if not minTime else minTime
+      self.maxTime = RANDOM_RFID_MAX_INTERVAL if not maxTime else maxTime
+
+   def run(self):
+      """Send some random RFID card numbers."""
