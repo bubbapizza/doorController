@@ -31,7 +31,7 @@
 #define VERSION 0.2
 
 /* Set serial communications rates. */
-#define BITRATE_SERIAL_COMMANDS 9600
+#define BITRATE_SERIAL_COMMANDS 115200
 #define BITRATE_RFID_READER 2400
 
 /* Set up pins for lights, buzzer(s), door lock, and RFID enable. */

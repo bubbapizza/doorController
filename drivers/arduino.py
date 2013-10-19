@@ -1,5 +1,21 @@
 #!/usr/bin/python
 
+#        Copyright (C) 2013 Shawn Wilson
+#        shawn@ch2a.ca
+#        
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#
 # This is a device driver for talking to an arduino running the 
 # doorController sketch.  It can read RFID cards, unlock/locking 
 # a door and controlling some lights and a buzzer for indicating
@@ -10,7 +26,7 @@
 #
 
 # This is the timeout period for waiting for an RFID card to come in.
-SERIAL_TIMOUT = 5
+SERIAL_TIMEOUT = 5
 
 
 ######## ARDUINO SERIAL PROTOCOL #########
@@ -108,30 +124,31 @@ class controller:
       # Go through every status line and build the dictionary of 
       # statuses.
       line = self.conn.readline().strip()
+      print line
       while line:
          if line == MSG_LOCK:
-            result[DOOR] = LOCKED
+            status[DOOR] = LOCKED
 
          elif line == MSG_UNLOCK:
-            result[DOOR] = UNLOCKED
+            status[DOOR] = UNLOCKED
 
          elif line == MSG_GREEN_ON:
-            result[GREEN] = ON
+            status[GREEN] = ON
 
          elif line == MSG_GREEN_OFF:
-            result[GREEN] = OFF
+            status[GREEN] = OFF
 
          elif line == MSG_RED_ON:
-            result[RED] = ON
+            status[RED] = ON
 
          elif line == MSG_RED_OFF:
-            result[RED] = OFF
+            status[RED] = OFF
 
          elif line == MSG_RFID_ENABLED:
-            result[RFID] = ENABLED
+            status[RFID] = ENABLED
 
          elif line == MSG_RFID_DISABLED:
-            result[RFID] = DISABLED
+            status[RFID] = DISABLED
             
          # Read in the next status line.
          line = self.conn.readline().strip()
