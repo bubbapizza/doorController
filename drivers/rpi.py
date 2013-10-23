@@ -28,6 +28,7 @@
 
 from RPi import *
 from status import *
+import os
 
 ####### CONSTANTS ######
 
@@ -249,21 +250,13 @@ class controller:
 
 
    def readRFID(self):
-      """Wait for an RFID swipe card.  If no card is available after
-      SERIAL_TIMEOUT, then it returns a None value"""
+      """Return the card number of the most recently read RFID card."""
 
-      self.conn.flushInput()
-      result = None
-
-      # Read all the input we have and as soon as we hit a MSG_CARD
-      # string, flush the input buffer and return the card number.
+      # Check the file size of the RFID file.  If it's not empty, 
+      # then just return whatever the contents are of the first line.
       #
-      line = self.conn.readline().strip()
-      while line:
-         if line.startswith(MSG_CARD):
-            result = line.lstrip(MSG_CARD)
-            break
+      if os.path.getsize(RFID_CARD_FILE) > 0:
+         f = open(RFID_CARD_FILE)
+         return f.readline().strip()
 
-         line = self.conn.readline().strip()
-      
-      return result
+      return ""
