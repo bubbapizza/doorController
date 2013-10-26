@@ -32,6 +32,14 @@ import os
 
 ####### CONSTANTS ######
 
+PIN_RED = 18
+PIN_GREEN = 16
+PIN_DOOR = 12
+PIN_BELL = 22
+
+# RFID enable is not enabled yet.
+PIN_RFID = -1 
+ 
 # This is the file that we poll for RFID card values.
 RFID_CARD_FILE = "/tmp/rfidCard0"
 
