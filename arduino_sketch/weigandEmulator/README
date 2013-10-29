@@ -1,0 +1,9 @@
+This sketch is for emulating a Wiegand RFID reader.  Upload this
+sketch to an arduino, then you can type in RFID codes over the
+serial port and it will send out the codes on pins 8 & 9 using the
+Wiegand protocol.
+
+NOTE: this has not been tested at all.  It may not work.
+
+Shawn Wilson
+Sept 11, 2013
