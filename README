@@ -1,0 +1,19 @@
+This is (going to be) a full DIY solution for a door controller.
+The door can be locked or unlocked using an arduino or a raspberry pi
+to interface witha Parallax serial RFID card reader for the controller
+hardware.
+
+The backend logic for the door controller is handled in python.  
+The arduino sketches have no logic in them whatsoever.  All they do is 
+accept single character commands over the virtual serial port 
+and control some lights, a buzzer and rfid controller.  All back-end logic
+is handled using python.
+
+I've also included a couple Arduino sketches for dealing w/ Wiegand RFID 
+card readers.  I'm not sure if the wiegand stuff actually works or not
+since I never tested it.  One sketch is an RFID emulator which is 
+supposed to emulate a wiegand card reader.  The other sketch is for 
+controlling a door using a device that speaks the wiegand protocol.
+
+Shawn Wilson
+Oct 29, 2013
