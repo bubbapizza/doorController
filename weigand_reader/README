@@ -1,7 +1,0 @@
-This is also a door card reader but it uses the weigand protocol
-for receiving codes from an rfid reader.  I never did test this 
-code since the door card reader I was using for testing turned
-out to be bad.   Sooo, this code may or may not work, YMMV.
-
-Shawn Wilson
-Sept 13, 2013
