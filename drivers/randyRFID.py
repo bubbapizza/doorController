@@ -1,3 +1,7 @@
+# Context manager example
+# see also https://gist.github.com/Taar/d273325cfb97a1873e2a
+
+
 from contextlib import contextmanager
 
 @contextmanager
