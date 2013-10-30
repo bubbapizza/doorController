@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #
 # tsend_card.sh
 # 20131030 -tm

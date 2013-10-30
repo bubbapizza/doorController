@@ -265,6 +265,14 @@ class controller:
       #
       if os.path.getsize(RFID_CARD_FILE) > 0:
          f = open(RFID_CARD_FILE)
-         return f.readline().strip()
+         returnVal = f.readline().strip()
+         f.close()
+
+         # Blank the file now that we've read it.
+         f = open(RFID_CARD_FILE)
+         f.write("")
+         f.close()
+
+         return returnVal
 
       return ""

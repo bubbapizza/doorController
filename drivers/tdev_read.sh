@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #
 # tdev_read.sh
 # 20131030 -tm
