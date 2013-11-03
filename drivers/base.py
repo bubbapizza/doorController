@@ -207,4 +207,4 @@ class controller:
       # Ring the piezo buzzer.
       # 
       elif cmd == BELL:
-         print MSG_BELL
+         print(MSG_BELL)
