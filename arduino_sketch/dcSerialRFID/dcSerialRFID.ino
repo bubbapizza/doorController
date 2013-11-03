@@ -20,6 +20,10 @@
  *  This program is a simple rfid door controller.  It provides a serial 
  *  interface for reading RFID cards and controlling a magnetic door lock,
  *  a green led, a red led and a piezo buzzer.
+ *
+ *  ChangeLog
+ *  0.3
+ *    - Added commands for querying the states of individual subdevices.
  * 
  *************/
 
@@ -28,7 +32,7 @@
 
 /**** CONSTANTS ****/
 
-#define VERSION 0.2
+#define VERSION 0.3
 
 /* Set serial communications rates. */
 #define BITRATE_SERIAL_COMMANDS 115200
@@ -69,7 +73,12 @@
 #define CMD_BELL 'b'
 #define CMD_RFID_DISABLE 'f'
 #define CMD_RFID_ENABLE 'F'
-#define CMD_STATUS 's'
+#define CMD_STATUS_ALL 's'
+#define CMD_STATUS_RED '1'
+#define CMD_STATUS_GREEN '2'
+#define CMD_STATUS_DOOR '3'
+#define CMD_STATUS_RFID '4'
+
 
 /* Set up message strings to be sent back over serial. */
 #define MSG_LOCK "DOOR LOCKED"
@@ -96,67 +105,65 @@ boolean buildCode = false;
 
 
 /**********
- *  Set up function for printing door lock status.
+ *  Print out the status of any one door controller subdevice or print
+ *  out the state of all subdevices.
  **********/
-void printStatus() {
-   Serial.println(MSG_STATUS_HEADER);
-   Serial.print("VERSION ");
-   Serial.println(VERSION);
+void printStatus(char cmd) {
+   /*
+    *  HEADER
+    */
+   if (cmd == CMD_STATUS_ALL) {
+      Serial.println(MSG_STATUS_HEADER);
+      Serial.print("VERSION ");
+      Serial.println(VERSION);
+   } /* endif */
+
 
    /* Get RFID reader status. */
-   if (!digitalRead(RFID_ENABLE_PIN)) {
-      Serial.println(MSG_RFID_ENABLED);
-   } else {
-      Serial.println(MSG_RFID_DISABLED);
+   if (cmd == CMD_STATUS_ALL || cmd == CMD_STATUS_RFID) {
+      if (!digitalRead(RFID_ENABLE_PIN)) {
+         Serial.println(MSG_RFID_ENABLED);
+      } else {
+         Serial.println(MSG_RFID_DISABLED);
+      } /* endif */
    } /* endif */
 
    /* Get door status. */
-   if (digitalRead(DOOR_LOCK_PIN)) {
-      Serial.println(MSG_LOCK);
-   } else {
-      Serial.println(MSG_UNLOCK);
+   if (cmd == CMD_STATUS_ALL || cmd == CMD_STATUS_DOOR) {
+      if (digitalRead(DOOR_LOCK_PIN)) {
+         Serial.println(MSG_LOCK);
+      } else {
+         Serial.println(MSG_UNLOCK);
+      } /* endif */
    } /* endif */
 
    /* Get green LED status. */
-   if (digitalRead(GREEN_LED_PIN)) {
-      Serial.println(MSG_GREEN_ON);
-   } else {
-      Serial.println(MSG_GREEN_OFF);
+   if (cmd == CMD_STATUS_ALL || cmd == CMD_STATUS_GREEN) {
+      if (digitalRead(GREEN_LED_PIN)) {
+         Serial.println(MSG_GREEN_ON);
+      } else {
+         Serial.println(MSG_GREEN_OFF);
+      } /* endif */
    } /* endif */
 
    /* Get red LED status. */
-   if (digitalRead(RED_LED_PIN)) {
-      Serial.println(MSG_RED_ON);
-   } else {
-      Serial.println(MSG_RED_OFF);
+   if (cmd == CMD_STATUS_ALL || cmd == CMD_STATUS_RED) {
+      if (digitalRead(RED_LED_PIN)) {
+         Serial.println(MSG_RED_ON);
+      } else {
+         Serial.println(MSG_RED_OFF);
+      } /* endif */
    } /* endif */
 
-   Serial.println(MSG_STATUS_FOOTER);
+
+   /*
+    *  FOOTER
+    */
+   if (cmd == CMD_STATUS_ALL) {
+      Serial.println(MSG_STATUS_FOOTER);
+   } /* endif */
 } /* endfunction */
 
-
-/**********
- *  Set up door lock/unlock functions.
- **********/
-void lockDoor() {
-   digitalWrite(DOOR_LOCK_PIN, HIGH);
-} /* endfunction */
-
-void unlockDoor() {
-   digitalWrite(DOOR_LOCK_PIN, LOW);
-} /* endfunction */
-
-
-/**********
- *  Set up RFID enable/disable functions.
- **********/
-void disableRFID() {
-   digitalWrite(RFID_ENABLE_PIN, HIGH);
-} /* endfunction */
-
-void enableRFID() {
-   digitalWrite(RFID_ENABLE_PIN, LOW);
-} /* endfunction */
 
 
 /**********
@@ -251,12 +258,12 @@ void loop() {
 
          /*** Unlock door. ***/
          if (cmdChr == CMD_DOOR_UNLOCK) {
-            unlockDoor();
+            digitalWrite(DOOR_LOCK_PIN, LOW);
             Serial.println(MSG_UNLOCK);
 
          /*** Lock door. ***/
          } else if (cmdChr == CMD_DOOR_LOCK) {
-            lockDoor();
+            digitalWrite(DOOR_LOCK_PIN, HIGH);
             Serial.println(MSG_LOCK);
 
          /*** Turn on green LED. ***/
@@ -281,12 +288,12 @@ void loop() {
 
          /*** Enable RFID reader. ***/
          } else if (cmdChr == CMD_RFID_ENABLE) {
-            enableRFID();
+            digitalWrite(RFID_ENABLE_PIN, LOW);
             Serial.println(MSG_RFID_ENABLED);
 
          /*** Disable RFID reader. ***/
          } else if (cmdChr == CMD_RFID_DISABLE) {
-            disableRFID();
+            digitalWrite(RFID_ENABLE_PIN, HIGH);
             Serial.println(MSG_RFID_DISABLED);
 
          /*** Ring bell. ***/
@@ -294,10 +301,17 @@ void loop() {
             tone(BELL_PIN, BELL_FREQUENCY, BELL_DURATION);
             Serial.println(MSG_BELL);
 
-         /*** Ring bell. ***/
-         } else if (cmdChr == CMD_STATUS) {
-            printStatus();
-
+         /*** STATUS CODES ***/
+         } else if (cmdChr == CMD_STATUS_ALL) {
+            printStatus(CMD_STATUS_ALL);
+         } else if (cmdChr == CMD_STATUS_RED) {
+            printStatus(CMD_STATUS_RED);
+         } else if (cmdChr == CMD_STATUS_GREEN) {
+            printStatus(CMD_STATUS_GREEN);
+         } else if (cmdChr == CMD_STATUS_DOOR) {
+            printStatusCMD_STATUS_DOOR);
+         } else if (cmdChr == CMD_STATUS_RFID) {
+            printStatus(CMD_STATUS_RFID);
          } /* endif */
    } /* endif */
 
