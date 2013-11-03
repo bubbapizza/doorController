@@ -14,7 +14,11 @@ CMD_RED_ON = 'R'
 CMD_BELL = 'b'
 CMD_RFID_DISABLE = 'f'
 CMD_RFID_ENABLE = 'F'
-CMD_STATUS = 's'
+CMD_STATUS_ALL = 's'
+CMD_STATUS_RED = '1'
+CMD_STATUS_GREEN = '2'
+CMD_STATUS_DOOR = '3'
+CMD_STATUS_RFID = '4'
 
 # These are the message strings received from the status command.
 NUM_STATUS_POLLABLE = 4

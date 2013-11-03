@@ -22,6 +22,7 @@
 #
 
 
+# Import all door controller status codes, values and messages.
 from status import *
 
 
@@ -54,10 +55,10 @@ class controller:
       the swipe card unit, turns the green LED off, locks the door,
       and starts reading RFID cards."""
 
-      self.status = {
+      self.device = {
          GREEN : OFF, 
          RED : OFF,
-         DOOR : LOCKED
+         DOOR : LOCKED,
          RFID : ENABLED
       }
       print("Controller initialized!!")
@@ -65,31 +66,37 @@ class controller:
 
    ##### BASE METHODS #####
 
-   def readRFID(self)
+   def readRFID(self):
       """This routine returns the RFID card value if one happens to 
       be swiped.  Normally, this routine would block on the
       hardware-specific _readRFID method."""
 
       card = None
-      if self.status[RFID]
+      if self.device[RFID]:
          card = self._readRFID()
 
       return card
 
    
-   def statusRFID(self):
-      """Returns whether or not RFID reading is enabled.  It returns the
-      values ENABLED or DISABLED."""
+   def status(self, subdevice=None):
+      """Return the status of all subdevices (RED, GREEN, DOOR, RFID) or
+      a specific device."""
 
-      status = self._readStatus()
-      return status[RFID]
+      # Return the status of a specific subdevice.
+      if subdevice:
+         if subdevice == RED:
+            return self._sendCMD(CMD_STATUS_RED)
+         if subdevice == GREEN:
+            return self._sendCMD(CMD_STATUS_GREEN)
+         if subdevice == DOOR:
+            return self._sendCMD(CMD_STATUS_DOOR)
+         if subdevice == RFID:
+            return self._sendCMD(CMD_STATUS_RFID)
+            
+      # Return the status of all devices.
+      else:
+         return self._sendCMD(CMD_STATUS_ALL)
       
-   def statusDoor(self):
-      """Returns whether the door is LOCKED or UNLOCKED."""
-
-      status = self._readStatus()
-      return status[DOOR]
-
 
    def lockDoor(self):
       """Lock the door."""
@@ -149,82 +156,55 @@ class controller:
 
       print("Sending command:", cmd)
 
-      returnVal = None
 
       #
       # Return the status of all pollable parts.
       #
-      if cmd == CMD_STATUS:
-         returnVal = []
-         if GPIO.input(PIN_RED) == GPIO.HIGH:
-            returnVal.append(MSG_RED_ON)
-         elif GPIO.input(PIN_RED) == GPIO.LOW:
-            returnVal.append(MSG_RED_OFF)
-         
-         if GPIO.input(PIN_GREEN) == GPIO.HIGH:
-            returnVal.append(MSG_GREEN_ON)
-         elif GPIO.input(PIN_GREEN) == GPIO.LOW:
-            returnVal.append(MSG_GREEN_OFF)
-
-         if GPIO.input(PIN_DOOR) == GPIO.HIGH:
-            returnVal.append(MSG_LOCK)
-         elif GPIO.input(PIN_DOOR) == GPIO.LOW:
-            returnVal.append(MSG_UNLOCK)
-         
-         if GPIO.input(PIN_RFID) == GPIO.HIGH:
-            returnVal.append(MSG_RFID_ENABLED)
-         elif GPIO.input(PIN_RFID) == GPIO.LOW:
-            returnVal.append(MSG_RFID_DISABLED)
-
-         if len(returnVal) != NUM_STATUS_POLLABLE:
-            raise StatusError
-
+      if cmd == CMD_STATUS_ALL:
+         return self.device
+      if cmd == CMD_STATUS_RED:
+         return self.device[RED]
+      if cmd == CMD_STATUS_GREEN:
+         return self.device[GREEN]
+      if cmd == CMD_STATUS_DOOR:
+         return self.device[DOOR]
+      if cmd == CMD_STATUS_RFID:
+         return self.device[RFID]
       
       #
       # Change the red LED status.
       #
       elif cmd == CMD_RED_ON:
-         GPIO.output(PIN_RED, GPIO.HIGH)
+         self.device[RED] = ON
       elif cmd == CMD_RED_OFF:
-         GPIO.output(PIN_RED, GPIO.LOW)
+         self.device[RED] = OFF
 
       #
       # Change the Green LED status.
       #
       elif cmd == CMD_GREEN_ON:
-         GPIO.output(PIN_GREEN, GPIO.HIGH)
+         self.device[GREEN] = ON
       elif cmd == CMD_GREEN_OFF:
-         GPIO.output(PIN_GREEN, GPIO.LOW)
+         self.device[GREEN] = OFF
 
       #
       # Change the door lock status.
       #
       elif cmd == CMD_DOOR_LOCK:
-         GPIO.output(PIN_DOOR, GPIO.HIGH)
+         self.device[DOOR] = LOCKED
       elif cmd == CMD_DOOR_UNLOCK:
-         GPIO.output(PIN_DOOR, GPIO.LOW)
+         self.device[DOOR] = UNLOCKED
 
       #
       # Change the door lock status.
       #
       elif cmd == CMD_RFID_ENABLE:
-         GPIO.output(PIN_RFID, GPIO.HIGH)
+         self.device[RFID] = ENABLED
       elif cmd == CMD_RFID_DISABLE:
-         GPIO.output(PIN_RFID, GPIO.LOW)
+         self.device[RFID] = DISABLED
 
       #
       # Ring the piezo buzzer.
       # 
       elif cmd == BELL:
          print MSG_BELL
-
-
-      return returnVal
-
-
-   def _readStatus(self):
-      """Get the current status of all the door controller devices."""
-   
-      return self.status
-
-
