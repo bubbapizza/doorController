@@ -25,6 +25,7 @@
 from RPi import *
 from status import *
 import os
+import base
 
 ####### CONSTANTS ######
 
@@ -42,7 +43,7 @@ RFID_CARD_FILE = "/tmp/rfidCard0"
 
 ####### CONTROLLER OBJECT #######
 
-class controller(base):
+class controller(base.controller):
    """This is a device driver for arduino-based door controller hardware.
    The arduino has to be running the doorController.ino sketch that comes
    with this package."""
@@ -68,7 +69,7 @@ class controller(base):
    
       # Initialize the door controller state by calling the base
       # __init__ routine.
-      base.__init__(self)
+      base.controller.__init__(self)
 
 
    def _readRFID(self):

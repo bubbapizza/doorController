@@ -25,38 +25,37 @@
 # Oct 14, 2013
 #
 
+import base
 import serial
 from status import *
 
 
 ######## CONSTANTS #########
 
+# This is the timeout period for waiting for an RFID card to come in.
+SERIAL_TIMEOUT = 1
+
+# These are possible messages returned from arduino door controller.
+MSG_STATUS_HEADER = "===== Door Controller Status ======"
+MSG_STATUS_FOOTER = "==================================="
+MSG_LOCK = "DOOR LOCKED"
+MSG_UNLOCK = "DOOR UNLOCKED"
+MSG_GREEN_OFF = "GREEN LED OFF"
+MSG_GREEN_ON = "GREEN LED ON"
+MSG_RED_OFF = "RED LED OFF"
+MSG_RED_ON = "RED LED ON"
+MSG_BELL = "BELL RING"
+MSG_RFID_ENABLED = "RFID READER ENABLED"
+MSG_RFID_DISABLED = "RFID READER DISABLED"
+
 # This is the string that precedes an RFID card number
 MSG_CARD = "CARD "
 
-# This is the timeout period for waiting for an RFID card to come in.
-SERIAL_TIMEOUT = 5
 
-
-
-####### EXCEPTIONS #######
-class Error(Exception):
-   """Base class for exceptions in this module."""
-   pass
-
-class StatusError(Error):
-   """Exception raised when the arduino status is bad/incomplete.
-
-   Attributes:
-      status -- the bad/incomplete status dictionary"""
-
-   def __init__(self, status):
-      self.status = status
-   
 
 ####### CONTROLLER OBJECT #######
 
-class controller:
+class controller(base.controller):
    """This is a device driver for arduino-based door controller hardware.
    The arduino has to be running the doorController.ino sketch that comes
    with this package."""
@@ -67,151 +66,125 @@ class controller:
       the swipe card unit, turns the green LED off, locks the door,
       and starts reading RFID cards."""
 
-      self.conn = serial.Serial(
+      self._conn = serial.Serial(
          port=port, 
          baudrate=baudrate,
          parity=serial.PARITY_NONE,
          bytesize=serial.EIGHTBITS,
          stopbits=serial.STOPBITS_ONE,
          timeout=SERIAL_TIMEOUT) 
-      self.open()
+      self._open()
 
-   def open(self):
+      # Initialize internal state variables, etc.
+      base.controller.__init__(self)
+
+
+   def _open(self):
       """Open the serial connection to the arduino and flush anything
       in the input buffer."""
-      self.conn.open()
-      self.conn.flushInput()
+      self._conn.open()
+      self._conn.flushInput()
 
-   def close(self):
+   def _close(self):
       """Close the serial connection to the arduino."""
-      self.conn.close()
-
-   def _sendCMD(self, cmd):
-      """Internally used to send a command over the serial port."""
-      self.conn.write(cmd)
-
-   def _readStatus(self):
-      """Get the current status of the door controller."""
-      self.conn.flushInput() 
-      self._sendCMD(CMD_STATUS)
-
-      status = {}
-
-      # Go through every status line and build the dictionary of 
-      # statuses.
-      line = self.conn.readline().strip()
-      print line
-      while line:
-         if line == MSG_LOCK:
-            status[DOOR] = LOCKED
-
-         elif line == MSG_UNLOCK:
-            status[DOOR] = UNLOCKED
-
-         elif line == MSG_GREEN_ON:
-            status[GREEN] = ON
-
-         elif line == MSG_GREEN_OFF:
-            status[GREEN] = OFF
-
-         elif line == MSG_RED_ON:
-            status[RED] = ON
-
-         elif line == MSG_RED_OFF:
-            status[RED] = OFF
-
-         elif line == MSG_RFID_ENABLED:
-            status[RFID] = ENABLED
-
-         elif line == MSG_RFID_DISABLED:
-            status[RFID] = DISABLED
-            
-         # Read in the next status line.
-         line = self.conn.readline().strip()
-
-      # Check to make sure we're not missing a status.  If we are, then
-      # raise an error because there's something wrong w/ serial
-      # communications somewhere.
-      if (DOOR in status) and (GREEN in status) and \
-         (RED in status) and (RFID in status):
-         return status
-      else:
-         raise StatusError(status)
+      self._conn.close()
 
 
-   def statusRFID(self):
-      """Returns whether or not RFID reading is enabled.  It returns the
-      values ENABLED or DISABLED."""
-
-      status = self._readStatus()
-      return status[RFID]
-      
-   def statusDoor(self):
-      """Returns whether the door is LOCKED or UNLOCKED."""
-
-      status = self._readStatus()
-      return status[DOOR]
-
-
-   #### COMMANDS ####
-
-   def lockDoor(self):
-      """Lock the door."""
-      self._sendCMD(CMD_DOOR_LOCK)
-
-   def unlockDoor(self):
-      """Unlock the door."""
-      self._sendCMD(CMD_DOOR_UNLOCK)
-
-
-   def greenON(self):
-      """Turn the green LED on."""
-      self._sendCMD(CMD_GREEN_ON)
-
-   def greenOFF(self):
-      """Turn the green LED off."""
-      self._sendCMD(CMD_GREEN_OFF)
-
-
-   def redON(self):
-      """Turn the red LED on."""
-      self._sendCMD(CMD_RED_ON)
-
-   def redOFF(self):
-      """Turn the red LED off."""
-      self._sendCMD(CMD_RED_OFF)
-
-
-   def ringBell(self):
-      """Ring a buzzer."""
-      self._sendCMD(CMD_BELL)
-
-   
-   def rfidON(self):
-      """Enable reading of RFID cards."""
-      self._sendCMD(CMD_RFID_ENABLE)
-
-   def rfidOFF(self):
-      """Disable reading of RFID cards."""
-      self._sendCMD(CMD_RFID_DISABLE)
-
-
-   def readRFID(self):
+   def _readRFID(self):
       """Wait for an RFID swipe card.  If no card is available after
       SERIAL_TIMEOUT, then it returns a None value"""
 
-      self.conn.flushInput()
-      result = None
+      # Flush the serial input in case it's already full of RFID cards.
+      self._conn.flushInput()
 
+      #
       # Read all the input we have and as soon as we hit a MSG_CARD
       # string, flush the input buffer and return the card number.
       #
-      line = self.conn.readline().strip()
+      result = None
+      line = self._conn.readline().strip()
       while line:
          if line.startswith(MSG_CARD):
             result = line.lstrip(MSG_CARD)
             break
 
-         line = self.conn.readline().strip()
+         line = self._conn.readline().strip()
       
       return result
+
+
+   def _sendCMD(self, cmd):
+      """Internally used to send a command over the serial port."""
+
+      # Flush existing input so we don't accidentally read any RFID
+      # cards, then send the command to the arduino.
+      self._conn.flushInput() 
+      self._conn.write(cmd)
+
+      #
+      # For statuses, read in what the arduino sent us back and change
+      # the internal state dictionary accordingly.
+      #
+      if cmd == CMD_STATUS_ALL:
+         line = self._conn.readline().strip()
+         print line
+         while line:
+            if line == MSG_LOCK:
+               self._status[DOOR] = LOCKED
+   
+            elif line == MSG_UNLOCK:
+               self._status[DOOR] = UNLOCKED
+   
+            elif line == MSG_GREEN_ON:
+               self._status[GREEN] = ON
+   
+            elif line == MSG_GREEN_OFF:
+               self._status[GREEN] = OFF
+   
+            elif line == MSG_RED_ON:
+               self._status[RED] = ON
+   
+            elif line == MSG_RED_OFF:
+               self._status[RED] = OFF
+   
+            elif line == MSG_RFID_ENABLED:
+               self._status[RFID] = ENABLED
+   
+            elif line == MSG_RFID_DISABLED:
+               self._status[RFID] = DISABLED
+               
+            # Read in the next status line.
+            line = self._conn.readline().strip()
+
+      elif cmd == CMD_STATUS_RED:
+         line = self._conn.readline().strip()
+         elif line == MSG_RED_ON:
+            self._status[RED] = ON
+         elif line == MSG_RED_OFF:
+            self._status[RED] = OFF
+         
+      elif cmd == CMD_STATUS_GREEN:
+         line = self._conn.readline().strip()
+         elif line == MSG_GREEN_ON:
+            self._status[GREEN] = ON
+         elif line == MSG_GREEN_OFF:
+            self._status[GREEN] = OFF
+
+      elif cmd == CMD_STATUS_DOOR:
+         line = self._conn.readline().strip()
+         elif line == MSG_LOCK:
+            self._status[DOOR] = LOCKED
+         elif line == MSG_UNLOCK:
+            self._status[DOOR] = UNLOCKED
+         
+      elif cmd == CMD_STATUS_RFID:
+         line = self._conn.readline().strip()
+         elif line == MSG_RFID_ENABLED:
+            self._status[DOOR] = ENABLED
+         elif line == MSG_RFID_DISABLED:
+            self._status[DOOR] = DISABLED
+
+      # Call the base class to handle state variables.
+      base.controller._sendCMD(self, cmd)
+
+

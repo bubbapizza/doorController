@@ -4,7 +4,7 @@
 
 ######## DOOR CONTROLLER PROTOCOL #########
 
-# These are all the commands you can send to the arduino.
+# These are all the commands you can send to the door controller.
 CMD_DOOR_UNLOCK = 'd'
 CMD_DOOR_LOCK = 'D'
 CMD_GREEN_OFF = 'g'
@@ -20,29 +20,13 @@ CMD_STATUS_GREEN = '2'
 CMD_STATUS_DOOR = '3'
 CMD_STATUS_RFID = '4'
 
-# These are the message strings received from the status command.
-NUM_STATUS_POLLABLE = 4
-
-MSG_STATUS_HEADER = "===== Door Controller Status ======"
-MSG_STATUS_FOOTER = "==================================="
-MSG_LOCK = "DOOR LOCKED"
-MSG_UNLOCK = "DOOR UNLOCKED"
-MSG_GREEN_OFF = "GREEN LED OFF"
-MSG_GREEN_ON = "GREEN LED ON"
-MSG_RED_OFF = "RED LED OFF"
-MSG_RED_ON = "RED LED ON"
-MSG_BELL = "BELL RING"
-MSG_RFID_ENABLED = "RFID READER ENABLED"
-MSG_RFID_DISABLED = "RFID READER DISABLED"
-
-
-# These are the pollable parts of the door controller.
+# These are subdevices that have changeable states.
 GREEN = "greenLED"
 RED = "redLED"
 DOOR = "door"
 RFID = "rfid"
 
-# These are status codes that can be used for the parts.
+# These are state codes that can be used for the subdevices.
 LOCKED = "locked"
 UNLOCKED = "unlocked"
 ON = True

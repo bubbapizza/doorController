@@ -66,8 +66,8 @@ class controller:
       # Set the initial subdevice states.
       self._sendCMD(CMD_RED_OFF)
       self._sendCMD(CMD_GREEN_OFF)
-      self._sendCMD(CMD_DOOR_UNLOCKED)
-      self._sendCMD(CMD_RFID_ENABLED)
+      self._sendCMD(CMD_DOOR_UNLOCK)
+      self._sendCMD(CMD_RFID_ENABLE)
 
       print("Door controller initialized!!!")
 
@@ -214,5 +214,5 @@ class controller:
       #
       # Ring the piezo buzzer.
       # 
-      elif cmd == BELL:
-         print(MSG_BELL)
+      elif cmd == CMD_BELL:
+         print("BUZZ!!")
