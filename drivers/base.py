@@ -55,13 +55,21 @@ class controller:
       the swipe card unit, turns the green LED off, locks the door,
       and starts reading RFID cards."""
 
-      self.device = {
-         GREEN : OFF, 
-         RED : OFF,
-         DOOR : LOCKED,
-         RFID : ENABLED
+      # Define all the door controller subdevices.
+      self._state = {
+         GREEN : None, 
+         RED : None,
+         DOOR : None,
+         RFID : None
       }
-      print("Controller initialized!!")
+
+      # Set the initial subdevice states.
+      self._sendCMD(CMD_RED_OFF)
+      self._sendCMD(CMD_GREEN_OFF)
+      self._sendCMD(CMD_DOOR_UNLOCKED)
+      self._sendCMD(CMD_RFID_ENABLED)
+
+      print("Door controller initialized!!!")
 
 
    ##### BASE METHODS #####
@@ -72,7 +80,7 @@ class controller:
       hardware-specific _readRFID method."""
 
       card = None
-      if self.device[RFID]:
+      if self._state[RFID]:
          card = self._readRFID()
 
       return card
@@ -161,47 +169,47 @@ class controller:
       # Return the status of all pollable parts.
       #
       if cmd == CMD_STATUS_ALL:
-         return self.device
+         return self._state
       if cmd == CMD_STATUS_RED:
-         return self.device[RED]
+         return self._state[RED]
       if cmd == CMD_STATUS_GREEN:
-         return self.device[GREEN]
+         return self._state[GREEN]
       if cmd == CMD_STATUS_DOOR:
-         return self.device[DOOR]
+         return self._state[DOOR]
       if cmd == CMD_STATUS_RFID:
-         return self.device[RFID]
+         return self._state[RFID]
       
       #
       # Change the red LED status.
       #
       elif cmd == CMD_RED_ON:
-         self.device[RED] = ON
+         self._state[RED] = ON
       elif cmd == CMD_RED_OFF:
-         self.device[RED] = OFF
+         self._state[RED] = OFF
 
       #
       # Change the Green LED status.
       #
       elif cmd == CMD_GREEN_ON:
-         self.device[GREEN] = ON
+         self._state[GREEN] = ON
       elif cmd == CMD_GREEN_OFF:
-         self.device[GREEN] = OFF
+         self._state[GREEN] = OFF
 
       #
       # Change the door lock status.
       #
       elif cmd == CMD_DOOR_LOCK:
-         self.device[DOOR] = LOCKED
+         self._state[DOOR] = LOCKED
       elif cmd == CMD_DOOR_UNLOCK:
-         self.device[DOOR] = UNLOCKED
+         self._state[DOOR] = UNLOCKED
 
       #
       # Change the door lock status.
       #
       elif cmd == CMD_RFID_ENABLE:
-         self.device[RFID] = ENABLED
+         self._state[RFID] = ENABLED
       elif cmd == CMD_RFID_DISABLE:
-         self.device[RFID] = DISABLED
+         self._state[RFID] = DISABLED
 
       #
       # Ring the piezo buzzer.

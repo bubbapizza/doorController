@@ -16,13 +16,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #
-# This is a device driver for talking to an arduino running the 
-# doorController sketch.  It can read RFID cards, unlock/locking 
-# a door and controlling some lights and a buzzer for indicating
-# swipe card status.
-#
-# Shawn Wilson
-# Oct 14, 2013
+# This is a device driver for a raspberry pi door controller.  It 
+# inherits all the base driver methods and just overrides the hardware
+# specific methods for talking to the RPi.
 #
 
 
@@ -44,24 +40,9 @@ PIN_RFID = -1
 RFID_CARD_FILE = "/tmp/rfidCard0"
 
 
-####### EXCEPTIONS #######
-class Error(Exception):
-   """Base class for exceptions in this module."""
-   pass
-
-class StatusError(Error):
-   """Exception raised when the RPi status is bad/incomplete.
-
-   Attributes:
-      status -- the bad/incomplete status dictionary"""
-
-   def __init__(self, status):
-      self.status = status
-   
-
 ####### CONTROLLER OBJECT #######
 
-class controller:
+class controller(base):
    """This is a device driver for arduino-based door controller hardware.
    The arduino has to be running the doorController.ino sketch that comes
    with this package."""
@@ -76,7 +57,6 @@ class controller:
       if cardFile == None:
          self.cardFile = RFID_CARD_FILE
 
-
       # Set pin modes.
       GPIO.setmode(GPIO.BOARD)
 
@@ -86,40 +66,90 @@ class controller:
       GPIO.setup(PIN_BELL, GPIO.OUT)
       GPIO.setup(PIN_RFID, GPIO.OUT)
    
+      # Initialize the door controller state by calling the base
+      # __init__ routine.
+      base.__init__(self)
+
+
+   def _readRFID(self):
+      """Return the card number of the most recently read RFID card."""
+
+      # Check the file size of the RFID file.  If it's not empty, 
+      # then just return whatever the contents are of the first line.
+      #
+      if os.path.getsize(RFID_CARD_FILE) > 0:
+         f = open(RFID_CARD_FILE)
+         returnVal = f.readline().strip()
+         f.close()
+
+         # Blank the file now that we've read it.
+         f = open(RFID_CARD_FILE)
+         f.write("")
+         f.close()
+
+         return returnVal
+
+      return ""
+
+
    def _sendCMD(self, cmd):
-      """Internally used to for controlling pins and returning 
+      """Internally used for controlling RPi pins and returning 
       status codes."""
 
-      returnVal = None
-
       #
-      # Return the status of all pollable parts.
+      # Return the status of all/any pollable subdevices.  When a status
+      # code is requested, we check the actual hardware value to see what 
+      # the state is, then modify the internal _state dictionary 
+      # accoringly.  
       #
-      if cmd == CMD_STATUS:
-         returnVal = []
+      # This way, when we call the base superclass at the bottom, the 
+      # status will get returned correctly. 
+      #
+      if cmd == CMD_STATUS_ALL:
          if GPIO.input(PIN_RED) == GPIO.HIGH:
-            returnVal.append(MSG_RED_ON)
+            self._state[RED] = ON
          elif GPIO.input(PIN_RED) == GPIO.LOW:
-            returnVal.append(MSG_RED_OFF)
+            self._state[RED] = OFF
          
          if GPIO.input(PIN_GREEN) == GPIO.HIGH:
-            returnVal.append(MSG_GREEN_ON)
+            self._state[GREEN] = ON
          elif GPIO.input(PIN_GREEN) == GPIO.LOW:
-            returnVal.append(MSG_GREEN_OFF)
+            self._state[GREEN] = OFF
 
          if GPIO.input(PIN_DOOR) == GPIO.HIGH:
-            returnVal.append(MSG_LOCK)
+            self._state[DOOR] = LOCKED
          elif GPIO.input(PIN_DOOR) == GPIO.LOW:
-            returnVal.append(MSG_UNLOCK)
+            self._state[DOOR] = UNLOCKED
          
          if GPIO.input(PIN_RFID) == GPIO.HIGH:
-            returnVal.append(MSG_RFID_ENABLED)
+            self._state[RFID] = ENABLED
          elif GPIO.input(PIN_RFID) == GPIO.LOW:
-            returnVal.append(MSG_RFID_DISABLED)
+            self._state[RFID] = DISABLED
 
-         if len(returnVal) != NUM_STATUS_POLLABLE:
-            raise StatusError
 
+      elif cmd == CMD_STATUS_RED:
+         if GPIO.input(PIN_RED) == GPIO.HIGH:
+            self._state[RED] = ON
+         elif GPIO.input(PIN_RED) == GPIO.LOW:
+            self._state[RED] = OFF
+
+      elif cmd == CMD_STATUS_GREEN:
+         if GPIO.input(PIN_GREEN) == GPIO.HIGH:
+            self._state[GREEN] = ON
+         elif GPIO.input(PIN_GREEN) == GPIO.LOW:
+            self._state[GREEN] = OFF
+
+      elif cmd == CMD_STATUS_DOOR:
+         if GPIO.input(PIN_DOOR) == GPIO.HIGH:
+            self._state[DOOR] = LOCKED
+         elif GPIO.input(PIN_DOOR) == GPIO.LOW:
+            self._state[DOOR] = UNLOCKED
+
+      elif cmd == CMD_STATUS_RFID:
+         if GPIO.input(PIN_RFID) == GPIO.HIGH:
+            self._state[RFID] = ENABLED
+         elif GPIO.input(PIN_RFID) == GPIO.LOW:
+            self._state[RFID] = DISABLED
       
       #
       # Change the red LED status.
@@ -157,122 +187,10 @@ class controller:
       # Ring the piezo buzzer.
       # 
       elif cmd == BELL:
-         print MSG_BELL
+         # Still have to figure out how to buzz a piezo with an RPi
+         pass
 
 
-      return returnVal
-
-
-   def _readStatus(self):
-      """Get the current status of the door controller."""
-      self.conn.flushInput() 
-      status = self._sendCMD(CMD_STATUS)
-
-
-      # Go through every status line and build the dictionary of 
-      # statuses.
-      for line in status:
-         print line
-         if line == MSG_LOCK:
-            status[DOOR] = LOCKED
-
-         elif line == MSG_UNLOCK:
-            status[DOOR] = UNLOCKED
-
-         elif line == MSG_GREEN_ON:
-            status[GREEN] = ON
-
-         elif line == MSG_GREEN_OFF:
-            status[GREEN] = OFF
-
-         elif line == MSG_RED_ON:
-            status[RED] = ON
-
-         elif line == MSG_RED_OFF:
-            status[RED] = OFF
-
-         elif line == MSG_RFID_ENABLED:
-            status[RFID] = ENABLED
-
-         elif line == MSG_RFID_DISABLED:
-            status[RFID] = DISABLED
-            
-      return status
-
-
-   def statusRFID(self):
-      """Returns whether or not RFID reading is enabled.  It returns the
-      values ENABLED or DISABLED."""
-
-      status = self._readStatus()
-      return status[RFID]
-      
-   def statusDoor(self):
-      """Returns whether the door is LOCKED or UNLOCKED."""
-
-      status = self._readStatus()
-      return status[DOOR]
-
-
-   #### COMMANDS ####
-
-   def lockDoor(self):
-      """Lock the door."""
-      self._sendCMD(CMD_DOOR_LOCK)
-
-   def unlockDoor(self):
-      """Unlock the door."""
-      self._sendCMD(CMD_DOOR_UNLOCK)
-
-
-   def greenON(self):
-      """Turn the green LED on."""
-      self._sendCMD(CMD_GREEN_ON)
-
-   def greenOFF(self):
-      """Turn the green LED off."""
-      self._sendCMD(CMD_GREEN_OFF)
-
-
-   def redON(self):
-      """Turn the red LED on."""
-      self._sendCMD(CMD_RED_ON)
-
-   def redOFF(self):
-      """Turn the red LED off."""
-      self._sendCMD(CMD_RED_OFF)
-
-
-   def ringBell(self):
-      """Ring a buzzer."""
-      self._sendCMD(CMD_BELL)
-
-   
-   def rfidON(self):
-      """Enable reading of RFID cards."""
-      self._sendCMD(CMD_RFID_ENABLE)
-
-   def rfidOFF(self):
-      """Disable reading of RFID cards."""
-      self._sendCMD(CMD_RFID_DISABLE)
-
-
-   def readRFID(self):
-      """Return the card number of the most recently read RFID card."""
-
-      # Check the file size of the RFID file.  If it's not empty, 
-      # then just return whatever the contents are of the first line.
-      #
-      if os.path.getsize(RFID_CARD_FILE) > 0:
-         f = open(RFID_CARD_FILE)
-         returnVal = f.readline().strip()
-         f.close()
-
-         # Blank the file now that we've read it.
-         f = open(RFID_CARD_FILE)
-         f.write("")
-         f.close()
-
-         return returnVal
-
-      return ""
+      # Call the base controller class which handles setting and
+      # returning of the internal _state values.
+      base._sendCMD(self, cmd)
