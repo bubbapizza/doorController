@@ -4,6 +4,7 @@
 
 from contextlib import contextmanager
 
+# Add the _enter_ and _exit_ methods.
 @contextmanager
 def ZeroOut(file_path):
     try:
