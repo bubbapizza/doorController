@@ -38,7 +38,7 @@ $Descr A 11000 8500
 encoding utf-8
 Sheet 1 2
 Title "Door Controller"
-Date "19 mar 2014"
+Date "22 mar 2014"
 Rev "0.4"
 Comp "Shawn Wilson"
 Comment1 "Raspberry Pi Door Controller"
@@ -75,7 +75,8 @@ P 8300 3700
 F 0 "D5" H 8225 3775 40  0000 L BNN
 F 1 "1N4007" H 8150 3600 40  0000 L CNN
 F 2 "DO7" H 8300 3850 30  0001 C CNN
-F 3 "" H 8300 3700 60  0001 C CNN
+F 3 "1N4007.pdf" H 8300 3700 60  0001 C CNN
+F 4 "DE3275" H 8300 3700 60  0001 C CNN "dipmicro#"
 	1    8300 3700
 	1    0    0    -1  
 $EndComp
@@ -146,7 +147,8 @@ P 7250 3650
 F 0 "Q1" H 7250 3500 50  0000 R CNN
 F 1 "N3904" H 7250 3800 50  0000 R CNN
 F 2 "~" H 7250 3650 60  0000 C CNN
-F 3 "~" H 7250 3650 60  0000 C CNN
+F 3 "2N3904.pdf" H 7100 3350 60  0001 C CNN
+F 4 "DE3069" H 7250 3650 60  0001 C CNN "dipmicro#"
 	1    7250 3650
 	1    0    0    -1  
 $EndComp
@@ -286,7 +288,7 @@ P 1100 1350
 F 0 "P2" V 1050 1350 40  0000 C CNN
 F 1 "CONN_2" V 1150 1350 40  0000 C CNN
 F 2 "" H 1100 1350 60  0000 C CNN
-F 3 "" H 1100 1350 60  0000 C CNN
+F 3 "Switchcraft-35RAPC2AVN4-datasheet.pdf" H 800 850 60  0001 C CNN
 	1    1100 1350
 	-1   0    0    1   
 $EndComp
@@ -298,6 +300,7 @@ F 0 "P3" V 9750 2250 40  0000 C CNN
 F 1 "CONN_2" V 9850 2250 40  0000 C CNN
 F 2 "" H 9800 2250 60  0000 C CNN
 F 3 "" H 9800 2250 60  0000 C CNN
+F 4 "DE1632" V 9800 2250 60  0001 C CNN "dipmicro#"
 	1    9800 2250
 	1    0    0    -1  
 $EndComp
@@ -311,6 +314,7 @@ F 0 "P4" V 5250 1550 40  0000 C CNN
 F 1 "CONN_2" V 5350 1550 40  0000 C CNN
 F 2 "" H 5300 1550 60  0000 C CNN
 F 3 "" H 5300 1550 60  0000 C CNN
+F 4 "DE1632" V 5300 1550 60  0001 C CNN "dipmicro#"
 	1    5300 1550
 	-1   0    0    1   
 $EndComp

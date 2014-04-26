@@ -1,38 +1,52 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 3/11/2014 8:12:54 PM
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 3/24/2014 6:48:21 PM
 
 BeginCmp
 TimeStamp = /531C8340;
 Reference = D1;
 ValeurCmp = LED;
-IdModule  = LED-5MM;
+IdModule  = LED-3MM;
 EndCmp
 
 BeginCmp
 TimeStamp = /531C8331;
 Reference = D2;
 ValeurCmp = LED;
-IdModule  = LED-5MM;
+IdModule  = LED-3MM;
 EndCmp
 
 BeginCmp
 TimeStamp = /531C8101;
 Reference = D3;
 ValeurCmp = LED;
-IdModule  = LED-5MM;
+IdModule  = LED-3MM;
 EndCmp
 
 BeginCmp
 TimeStamp = /531924B3;
 Reference = D4;
 ValeurCmp = LED;
-IdModule  = LED-5MM;
+IdModule  = LED-3MM;
 EndCmp
 
 BeginCmp
 TimeStamp = /53192395;
 Reference = D5;
 ValeurCmp = 1N4007;
-IdModule  = DO7;
+IdModule  = DO-41;
+EndCmp
+
+BeginCmp
+TimeStamp = /532A16FC/5321D51C;
+Reference = D6;
+ValeurCmp = LED;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /532A16FC/5321D52B;
+Reference = D7;
+ValeurCmp = LED;
+IdModule  = ;
 EndCmp
 
 BeginCmp
@@ -40,6 +54,13 @@ TimeStamp = /531F9A33;
 Reference = J1;
 ValeurCmp = RJ45;
 IdModule  = RJ45_8;
+EndCmp
+
+BeginCmp
+TimeStamp = /532A16FC/5321D451;
+Reference = J2;
+ValeurCmp = RJ45;
+IdModule  = ;
 EndCmp
 
 BeginCmp
@@ -53,20 +74,27 @@ BeginCmp
 TimeStamp = /531F9810;
 Reference = P2;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = MONO_JACK;
 EndCmp
 
 BeginCmp
 TimeStamp = /531F981F;
 Reference = P3;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = C2;
 EndCmp
 
 BeginCmp
 TimeStamp = /531F989A;
 Reference = P4;
 ValeurCmp = CONN_2;
+IdModule  = C2;
+EndCmp
+
+BeginCmp
+TimeStamp = /532A16FC/5321D611;
+Reference = P5;
+ValeurCmp = CONN_4;
 IdModule  = ;
 EndCmp
 
@@ -134,6 +162,20 @@ IdModule  = R5;
 EndCmp
 
 BeginCmp
+TimeStamp = /532A16FC/5321D4FE;
+Reference = R9;
+ValeurCmp = 330;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /532A16FC/5321D50D;
+Reference = R10;
+ValeurCmp = 330;
+IdModule  = ;
+EndCmp
+
+BeginCmp
 TimeStamp = /531C8935;
 Reference = SW1;
 ValeurCmp = SW_PUSH;
@@ -141,9 +183,16 @@ IdModule  = SW_PUSH_SMALL;
 EndCmp
 
 BeginCmp
-TimeStamp = /531A655B;
+TimeStamp = /53213285;
 Reference = U1;
 ValeurCmp = RELAY;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /532A16FC/532A1C21;
+Reference = U2;
+ValeurCmp = BUZZER;
 IdModule  = ;
 EndCmp
 

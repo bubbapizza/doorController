@@ -38,7 +38,7 @@ $Descr A 11000 8500
 encoding utf-8
 Sheet 2 2
 Title "Card Reader"
-Date "19 mar 2014"
+Date "22 mar 2014"
 Rev "0.4"
 Comp "Shawn Wilson"
 Comment1 "RFID card reader for RPi door controller"

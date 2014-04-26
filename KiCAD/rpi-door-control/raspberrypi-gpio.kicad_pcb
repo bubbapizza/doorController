@@ -1,4 +1,4 @@
-(kicad_pcb (version 3) (host pcbnew "(2012-11-30 BZR 3829)-testing")
+(kicad_pcb (version 3) (host pcbnew "(2013-07-07 BZR 4022)-stable")
 
   (general
     (links 0)
@@ -13,10 +13,6 @@
   )
 
   (page A3)
-  (title_block
-    (date "15 nov 2012")
-  )
-
   (layers
     (15 F.Cu signal)
     (0 B.Cu signal)
@@ -57,7 +53,7 @@
     (mod_edge_width 0.15)
     (mod_text_size 1 1)
     (mod_text_width 0.15)
-    (pad_size 1 1)
+    (pad_size 1 2.6)
     (pad_drill 0.6)
     (pad_to_mask_clearance 0)
     (aux_axis_origin 143.5 181)
@@ -66,7 +62,7 @@
       (layerselection 3178497)
       (usegerberextensions true)
       (excludeedgelayer true)
-      (linewidth 152400)
+      (linewidth 0.150000)
       (plotframeref false)
       (viasonmask false)
       (mode 1)
@@ -293,7 +289,5 @@
   (gr_line (start 228.5 125) (end 143.5 125) (angle 90) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 143.5 181) (end 228.5 181) (angle 90) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 143.5 125) (end 143.5 181) (angle 90) (layer Edge.Cuts) (width 0.15))
-
-
 
 )
