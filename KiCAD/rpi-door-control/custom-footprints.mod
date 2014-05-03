@@ -1,13 +1,14 @@
-PCBNEW-LibModule-V1  4/26/2014 12:14:52 PM
+PCBNEW-LibModule-V1  5/3/2014 10:59:24 AM
 # encoding utf-8
 Units mm
 $INDEX
-2Pole_Terminal_block
+C2_KF103
 MONO_JACK
+RELAY_AZ942
 $EndINDEX
-$MODULE 2Pole_Terminal_block
+$MODULE C2_KF103
 Po 0 0 0 15 535BDB0E 00000000 ~~
-Li 2Pole_Terminal_block
+Li C2_KF103
 Sc 0
 AR 
 Op 0 0 0
@@ -41,7 +42,7 @@ At STD N 00E0FFFF
 Ne 0 ""
 Po 2.5 0
 $EndPAD
-$EndMODULE 2Pole_Terminal_block
+$EndMODULE C2_KF103
 $MODULE MONO_JACK
 Po 0 0 0 15 5330B3F2 00000000 ~~
 Li MONO_JACK
@@ -80,4 +81,52 @@ Ne 0 ""
 Po 5.8 0
 $EndPAD
 $EndMODULE MONO_JACK
+$MODULE RELAY_AZ942
+Po 0 0 0 15 5364FF75 00000000 ~~
+Li RELAY_AZ942
+Sc 0
+AR 
+Op 0 0 0
+T0 6.3 -1.6 1 1 0 0.15 N V 21 N "RELAY"
+T1 6.4 3.1 1 1 0 0.15 N V 21 N "VAL**"
+DS -4.1 -8.2 18.4 -8.2 0.15 21
+DS -4.1 -8.2 -4.1 8.2 0.15 21
+DS -4.1 8.2 18.4 8.2 0.15 21
+DS 18.4 8.2 18.4 -8.2 0.15 21
+$PAD
+Sh "1" C 1.8 1.8 0 0 0
+Dr 1.3 0 0
+At STD N 00E0FFFF
+Ne 0 ""
+Po -2 0
+$EndPAD
+$PAD
+Sh "2" C 1.8 1.8 0 0 0
+Dr 1.3 0 0
+At STD N 00E0FFFF
+Ne 0 ""
+Po 0 -6
+$EndPAD
+$PAD
+Sh "5" C 1.8 1.8 0 0 0
+Dr 1.3 0 0
+At STD N 00E0FFFF
+Ne 0 ""
+Po 0 6
+$EndPAD
+$PAD
+Sh "3" C 1.8 1.8 0 0 0
+Dr 1.3 0 0
+At STD N 00E0FFFF
+Ne 0 ""
+Po 12.2 -6
+$EndPAD
+$PAD
+Sh "4" C 1.8 1.8 0 0 0
+Dr 1.3 0 0
+At STD N 00E0FFFF
+Ne 0 ""
+Po 12.2 6
+$EndPAD
+$EndMODULE RELAY_AZ942
 $EndLIBRARY

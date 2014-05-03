@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 3/24/2014 6:48:21 PM
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 5/3/2014 11:04:49 AM
 
 BeginCmp
 TimeStamp = /531C8340;
@@ -74,21 +74,21 @@ BeginCmp
 TimeStamp = /531F9810;
 Reference = P2;
 ValeurCmp = CONN_2;
-IdModule  = MONO_JACK;
+IdModule  = C2_KF103;
 EndCmp
 
 BeginCmp
 TimeStamp = /531F981F;
 Reference = P3;
 ValeurCmp = CONN_2;
-IdModule  = C2;
+IdModule  = C2_KF103;
 EndCmp
 
 BeginCmp
 TimeStamp = /531F989A;
 Reference = P4;
 ValeurCmp = CONN_2;
-IdModule  = C2;
+IdModule  = C2_KF103;
 EndCmp
 
 BeginCmp
@@ -102,7 +102,7 @@ BeginCmp
 TimeStamp = /531A5608;
 Reference = Q1;
 ValeurCmp = N3904;
-IdModule  = ;
+IdModule  = TO92;
 EndCmp
 
 BeginCmp
@@ -186,7 +186,7 @@ BeginCmp
 TimeStamp = /53213285;
 Reference = U1;
 ValeurCmp = RELAY;
-IdModule  = ;
+IdModule  = RELAY_AZ942;
 EndCmp
 
 BeginCmp
