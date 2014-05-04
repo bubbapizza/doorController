@@ -1,4 +1,4 @@
-PCBNEW-LibModule-V1  5/3/2014 10:59:24 AM
+PCBNEW-LibModule-V1  5/4/2014 3:49:23 PM
 # encoding utf-8
 Units mm
 $INDEX
@@ -128,5 +128,11 @@ At STD N 00E0FFFF
 Ne 0 ""
 Po 12.2 6
 $EndPAD
+$SHAPE3D
+Na "3D_models/az942.wrl"
+Sc 0.3937 0.3937 0.3937
+Of -0.161 0.324 0
+Ro 0 0 90
+$EndSHAPE3D
 $EndMODULE RELAY_AZ942
 $EndLIBRARY
