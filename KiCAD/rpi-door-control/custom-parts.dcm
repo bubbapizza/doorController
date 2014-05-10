@@ -1,4 +1,14 @@
-EESchema-DOCLIB  Version 2.0  Date: 5/3/2014 10:44:52 AM
+EESchema-DOCLIB  Version 2.0  Date: 5/10/2014 11:40:50 AM
+#
+$CMP 4N26
+D 4N26, DIP6, DC Optocoupler Base Connected, Vce 30V, CTR 20%, Viso 1500V
+K NPN DC Optocoupler Base Connected
+$ENDCMP
+#
+$CMP 4N35
+D 4N25, DIP6, DC Optocoupler Base Connected, Vce 30V, CTR 20%, Viso 2500V
+K NPN DC Optocoupler Base Connected
+$ENDCMP
 #
 $CMP EXIT
 D Symbole general de connecteur
