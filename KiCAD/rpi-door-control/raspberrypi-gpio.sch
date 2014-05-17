@@ -38,7 +38,7 @@ $Descr A 11000 8500
 encoding utf-8
 Sheet 1 2
 Title "Door Controller"
-Date "10 may 2014"
+Date "17 may 2014"
 Rev "0.6"
 Comp "Shawn Wilson"
 Comment1 "Raspberry Pi Door Controller"
@@ -305,7 +305,6 @@ F 3 "" H 1350 4150 60  0000 C CNN
 	1    1350 4150
 	0    -1   -1   0   
 $EndComp
-NoConn ~ 1800 3800
 NoConn ~ 1000 3600
 NoConn ~ 2650 3650
 NoConn ~ 2650 3750
@@ -465,12 +464,12 @@ $EndComp
 $Comp
 L +5V #PWR013
 U 1 1 532A2790
-P 2450 3650
-F 0 "#PWR013" H 2450 3740 20  0001 C CNN
-F 1 "+5V" H 2450 3740 30  0000 C CNN
-F 2 "" H 2450 3650 60  0000 C CNN
-F 3 "" H 2450 3650 60  0000 C CNN
-	1    2450 3650
+P 2450 3450
+F 0 "#PWR013" H 2450 3540 20  0001 C CNN
+F 1 "+5V" H 2450 3540 30  0000 C CNN
+F 2 "" H 2450 3450 60  0000 C CNN
+F 3 "" H 2450 3450 60  0000 C CNN
+	1    2450 3450
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -619,8 +618,6 @@ Wire Wire Line
 Wire Wire Line
 	5000 1500 5000 1800
 Wire Wire Line
-	2450 4100 1800 4100
-Wire Wire Line
 	4200 2850 5250 2850
 Wire Wire Line
 	4950 4000 4950 4750
@@ -657,8 +654,6 @@ Wire Wire Line
 	2500 1650 2350 1650
 Wire Wire Line
 	4200 2650 6800 2650
-Wire Wire Line
-	2450 3650 2450 4100
 Wire Wire Line
 	2450 4200 2450 4700
 Wire Wire Line
@@ -841,4 +836,9 @@ Wire Wire Line
 	8000 1950 7600 1950
 Wire Wire Line
 	8000 2200 7600 2200
+Wire Wire Line
+	1800 3800 2450 3800
+Wire Wire Line
+	2450 3800 2450 3450
+NoConn ~ 1800 4100
 $EndSCHEMATC
