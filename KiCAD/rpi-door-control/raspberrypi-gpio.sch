@@ -37,11 +37,11 @@ EELAYER END
 $Descr A 11000 8500
 encoding utf-8
 Sheet 1 2
-Title "Door Controller"
+Title "Raspberry Pi Door Controller"
 Date "17 may 2014"
 Rev "0.6.1"
-Comp "Shawn Wilson"
-Comment1 "Raspberry Pi Door Controller"
+Comp "Copyright 2014, Shawn Wilson"
+Comment1 "License: GPL v3, https://github.com/bubbapizza/doorController"
 Comment2 ""
 Comment3 ""
 Comment4 ""
