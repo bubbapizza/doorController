@@ -39,7 +39,7 @@ encoding utf-8
 Sheet 1 2
 Title "Door Controller"
 Date "17 may 2014"
-Rev "0.6"
+Rev "0.6.1"
 Comp "Shawn Wilson"
 Comment1 "Raspberry Pi Door Controller"
 Comment2 ""
