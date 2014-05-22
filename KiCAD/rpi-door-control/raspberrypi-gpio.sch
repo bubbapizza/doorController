@@ -38,7 +38,7 @@ $Descr A 11000 8500
 encoding utf-8
 Sheet 1 2
 Title "Raspberry Pi Door Controller"
-Date "17 may 2014"
+Date "22 may 2014"
 Rev "0.6.1"
 Comp "Copyright 2014, Shawn Wilson"
 Comment1 "License: GPL v3, https://github.com/bubbapizza/doorController"
@@ -278,7 +278,7 @@ F 2 "" H 10100 1900 60  0000 C CNN
 F 3 "" H 10100 1900 60  0000 C CNN
 F 4 "DE1632" V 10100 1900 60  0001 C CNN "dipmicro#"
 	1    10100 1900
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 Text Notes 950  1050 0    60   ~ 0
 Push-to-lock \nButton
