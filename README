@@ -14,6 +14,7 @@ card readers.  I'm not sure if the wiegand stuff actually works or not
 since I never tested it.  One sketch is an RFID emulator which is 
 supposed to emulate a wiegand card reader.  The other sketch is for 
 controlling a door using a device that speaks the wiegand protocol.
+testing
 
 Shawn Wilson
 Oct 29, 2013
