@@ -39,7 +39,7 @@ encoding utf-8
 Sheet 1 2
 Title "Raspberry Pi Door Controller"
 Date "22 may 2014"
-Rev "0.6.1"
+Rev "0.6.2"
 Comp "Copyright 2014, Shawn Wilson"
 Comment1 "License: GPL v3, https://github.com/bubbapizza/doorController"
 Comment2 ""
