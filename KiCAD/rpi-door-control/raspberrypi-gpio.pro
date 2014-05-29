@@ -1,4 +1,4 @@
-update=5/11/2014 9:47:11 AM
+update=5/24/2014 3:00:17 PM
 version=1
 last_client=eeschema
 [cvpcb]
@@ -17,10 +17,10 @@ version=1
 version=1
 LastNetListRead=
 UseCmpFile=1
-PadDrill=0.600000000000
-PadDrillOvalY=0.600000000000
-PadSizeH=1.000000000000
-PadSizeV=1.000000000000
+PadDrill=1.000000000000
+PadDrillOvalY=1.000000000000
+PadSizeH=1.500000000000
+PadSizeV=1.500000000000
 PcbTextSizeV=1.000000000000
 PcbTextSizeH=1.000000000000
 PcbTextThickness=0.300000000000
@@ -45,6 +45,7 @@ LibName8=valves
 LibName9=led
 LibName10=dip_sockets
 LibName11=custom-footprints
+LibName12=ohw_logo
 [eeschema]
 version=1
 LibDir=
