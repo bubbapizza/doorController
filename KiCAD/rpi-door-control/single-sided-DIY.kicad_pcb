@@ -3,9 +3,9 @@
   (general
     (links 48)
     (no_connects 0)
-    (area 79.924999 75.924999 203.075001 126.075001)
+    (area 77.712499 75.924999 211.5 132.5)
     (thickness 1.6)
-    (drawings 19)
+    (drawings 17)
     (tracks 175)
     (zones 0)
     (modules 30)
@@ -64,7 +64,7 @@
     (pad_size 4.064 4.064)
     (pad_drill 3.048)
     (pad_to_mask_clearance 0.2)
-    (aux_axis_origin 75 73)
+    (aux_axis_origin 80 77.5)
     (visible_elements 7FFFFFFF)
     (pcbplotparams
       (layerselection 1)
@@ -1253,8 +1253,6 @@
     )
   )
 
-  (target plus (at 209 102) (size 5) (width 0.15) (layer Edge.Cuts))
-  (target plus (at 134 130) (size 5) (width 0.15) (layer Edge.Cuts))
   (gr_text + (at 198.5 98.7) (layer F.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )
