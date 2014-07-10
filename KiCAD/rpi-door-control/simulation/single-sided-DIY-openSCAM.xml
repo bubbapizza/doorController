@@ -1,0 +1,36 @@
+<openscam>
+  <!-- Note, all values are in mm regardless of 'units' option. -->
+  <!-- NC Files -->
+  <nc-files>
+    ..\gcode\flatcam_0-5_iso_mill.ngc ..\gcode\flatcam_3-2_drill_holes.ngc ..\gcode\flatcam_3-0_drill_holes.ngc ..\gcode\flatcam_0-9_drill_holes.ngc ..\gcode\flatcam_1-0_drill_holes.ngc ..\gcode\flatcam_1-3_drill_holes.ngc
+  </nc-files>
+
+  <!-- Renderer -->
+  <resolution v='0.361985'/>
+
+  <!-- Workpiece -->
+  <automatic-workpiece v='false'/>
+  <workpiece-max v='(121,0,0)'/>
+  <workpiece-min v='(0,-49,-2)'/>
+
+  <tool_table>
+    <tool length='0.433' number='10' radius='0.25' shape='CONICAL' units='MM'>
+      60 deg. engraver
+    </tool>
+    <tool length='10' number='11' radius='0.45' shape='CYLINDRICAL' units='MM'>
+      0.9mm drill
+    </tool>
+    <tool length='10' number='12' radius='0.5' shape='CYLINDRICAL' units='MM'>
+      1.0mm drill
+    </tool>
+    <tool length='10' number='13' radius='0.65' shape='CYLINDRICAL' units='MM'>
+      1.3mm drill
+    </tool>
+    <tool length='10' number='15' radius='1.5' shape='CYLINDRICAL' units='MM'>
+      3.0mm drill
+    </tool>
+    <tool length='10' number='16' radius='1.6' shape='CYLINDRICAL' units='MM'>
+      3.2mm drill
+    </tool>
+  </tool_table>
+</openscam>
