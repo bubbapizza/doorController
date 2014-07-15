@@ -1,6 +1,7 @@
 /* This is a jig for holding the rpi door controller PCB
    on a Sherline 5000 mill for isolation milling.  */
 use <MCAD/nuts_and_bolts.scad>;
+use <grid.scad>;
 
 $fn = 16;
 
@@ -8,6 +9,8 @@ $fn = 16;
 x = 148;
 y = 70;
 z = 10;
+x_border = 14;
+y_border = 10;
 
 /* Set the screw size in mm. */
 screw_size = 4.1;
@@ -27,8 +30,6 @@ mount_hole_dist = (1.5 * 25.4); // 1.5 in
 mount_hole_x_offset = 7;
 
 
-
-
 difference() {
 
    union() {
@@ -44,32 +45,32 @@ difference() {
    
 
    translate([0, 0, 0]) {
-      nutHole(size=3, units=MM, tolerance=0.2);
+      nutHole(size=4, tolerance=0.2);
       cylinder(h = z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x, 0, 0]) {
-      nutHole(size=3, units=MM, tolerance=0.2);
+      nutHole(size=4, tolerance=0.2);
       cylinder(h = z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([0, y, 0]) {
-      nutHole(size=3, units=MM, tolerance=0.2);
+      nutHole(size=4, tolerance=0.2);
       cylinder(h = z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x, y, 0]) {
-      nutHole(size=3, units=MM, tolerance=0.2);
+      nutHole(size=4, tolerance=0.2);
       cylinder(h = z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x / 2, 0, 0]) {
-      nutHole(size=3, units=MM, tolerance=0.2);
+      nutHole(size=4, tolerance=0.2);
       cylinder(h = z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x / 2, y, 0]) {
-      nutHole(size=3, units=MM, tolerance=0.2);
+      nutHole(size=4, tolerance=0.2);
       cylinder(h = z, r = screw_size / 2);
    } /* endtranslate */
 
@@ -115,4 +116,16 @@ difference() {
               (y / 2) + (mount_hole_dist / 2), 
               z - bolt_head_height])
       cylinder(h = z, r = bolt_head_dia / 2);
+
+   /* Make a big hole in the center. */
+   translate([x_border, y_border, 0])
+      cube([x - (2 * x_border), y - (2 * y_border), z]); 
+
 } /* enddifference */
+
+
+/* Add a grid in the middle.  Change y to y + 10 to center 
+   the lines on the y axis. */
+translate([(x / 2), 35, (z / 2)])
+   grid(x - (2 * x_border), 60,
+        0, 0, 1, 19, z);
