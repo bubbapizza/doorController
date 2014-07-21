@@ -9,8 +9,10 @@ $fn = 16;
 x = 148;
 y = 70;
 z = 15;
-x_border = 14;
+x_border = 10;
 y_border = 10;
+grid_size = 20;
+grid_line_width = 1;
 
 /* Set the screw size in mm. */
 screw_size = 4.1;
@@ -26,21 +28,19 @@ bolt_head_height = (0.19 * 25.4) + 2;
 
 /* Set the distance between mounting holes. */
 mount_hole_dist = (1.5 * 25.4); // 1.5 in
-/* Set the offset from the edge. */
-mount_hole_x_offset = 7;
+
+
+
+/****** Calculated Values *******/
+mount_hole_x_offset = x_border / 2; 
 
 
 difference() {
 
    union() {
       translate([(x / 2), y / 2, (z / 2)])
-         grid(x - (2 * x_border), 
-              y - (2 * y_border),
-              x_border, 
-              y_border, 
-              0.5, 
-              9.5, 
-              z);
+         grid(x, y, x_border, y_border, grid_line_width, 
+              grid_size - grid_line_width, z);
    
       cylinder(h = z, r = screw_size * 1.5);
       translate([x, 0, 0]) cylinder(h = z, r = screw_size * 1.5);
@@ -86,7 +86,8 @@ difference() {
     *  Add some holes for the #10 socket head cap screws that
     *  attach the plate to the base. 
     */
-   
+  
+
    /* Subtract the bolt holes. */
    translate([mount_hole_x_offset, 
               (y / 2) - (mount_hole_dist / 2), 
@@ -124,14 +125,5 @@ difference() {
               z - bolt_head_height])
       cylinder(h = z, r = bolt_head_dia / 2);
 
-   /* Make a big hole in the center. */
-   translate([x_border, y_border, 0])
-      cube([x - (2 * x_border), y - (2 * y_border), z]); 
-
 } /* enddifference */
-
-
-/* Add a grid in the middle.  Change y to y + 10 to center 
-   the lines on the y axis. */
-
 
