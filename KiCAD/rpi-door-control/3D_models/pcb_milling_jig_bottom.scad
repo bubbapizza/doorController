@@ -33,7 +33,14 @@ mount_hole_x_offset = 7;
 difference() {
 
    union() {
-      cube([x, y, z]);
+      translate([(x / 2), y / 2, (z / 2)])
+         grid(x - (2 * x_border), 
+              y - (2 * y_border),
+              x_border, 
+              y_border, 
+              0.5, 
+              9.5, 
+              z);
    
       cylinder(h = z, r = screw_size * 1.5);
       translate([x, 0, 0]) cylinder(h = z, r = screw_size * 1.5);
@@ -126,6 +133,5 @@ difference() {
 
 /* Add a grid in the middle.  Change y to y + 10 to center 
    the lines on the y axis. */
-translate([(x / 2), 35, (z / 2)])
-   grid(x - (2 * x_border), 60,
-        0, 0, 1, 19, z);
+
+
