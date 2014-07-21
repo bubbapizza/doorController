@@ -14,6 +14,11 @@ y_border = 10;
 grid_size = 20;
 grid_line_width = 1;
 
+/* The grid pocket is how much to drop the top of the grid by.  This
+   allows for some padding to be added underneath the circuit board. */
+grid_pocket = 3;
+
+
 /* Set the screw size in mm. */
 screw_size = 4.1;
 
@@ -125,5 +130,8 @@ difference() {
               z - bolt_head_height])
       cylinder(h = z, r = bolt_head_dia / 2);
 
+   /* Subtract the grid pocket. */
+   translate([x_border, y_border, z - grid_pocket])
+      cube(size=[x - (x_border * 2), y - (y_border * 2), grid_pocket]);
 } /* enddifference */
 
