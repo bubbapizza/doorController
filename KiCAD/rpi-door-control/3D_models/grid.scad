@@ -22,39 +22,56 @@ module grid(
    echo (nX, nY, gridSize);
 
 
-   /* Draw the border box centered. */
-   difference() {
-      cube (size=[gridX,gridY,thickness], center=true);
-      cube (size=[meshX,meshY,thickness], center=true);
-   } /* enddifference */
-   
+   intersection () {
 
-   /* Draw the grid centered. */
-   translate([0, 0, -1 * (thickness / 2)])
-      
       union() {
-      /* Draw the lines parallel to y axis. */
-      for (i = [0 : floor(nX / 2)]) {
-         translate([i*(meshSolid+meshSpace), -1 * (gridY / 2), 0]) 
-            cube(size=[meshSolid, gridY, thickness]);
-      } /* endfor */
-      for (i = [0 : floor(nX / 2)]) {
-         translate([-1 * i*(meshSolid+meshSpace), (gridY / 2), 0]) 
-            cube(size=[meshSolid, gridY, thickness]);
-      } /* endfor */
-   
-      /* Draw the lines parallel to the x axis. */
-      for (i = [0 : floor(nY / 2)]) {
-         translate([-1 * (gridX / 2), i*(meshSolid+meshSpace), 0]) 
-            cube(size=[gridX, meshSolid, thickness]);
-      } /* endfor */
-      for (i = [0 : floor(nY / 2)]) {
-         translate([-1 * (gridX / 2), -1 * i*(meshSolid+meshSpace), 0]) 
-            cube(size=[gridX, meshSolid, thickness]);
-      } /* endfor */
-   }
+         /* 
+          *  Draw the border box centered. 
+          */
+         difference() {
+            cube (size=[gridX,gridY,thickness+ 2], center=true);
+            cube (size=[meshX,meshY,thickness+ 2], center=true);
+         } /* enddifference */
+         
+      
+         /* 
+          *  Draw the grid centered. 
+          */
+      
+         /* Draw the lines parallel to y axis. */
+         translate([-1 * (meshSolid / 2), 0, -1 * (thickness / 2)])
+            union() {
+               for (i = [0 : ceil(nX / 2)]) {
+                  translate([i*(meshSolid+meshSpace), -1 * (gridY / 2), 0]) 
+                     cube(size=[meshSolid, gridY, thickness]);
+               } /* endfor */
+               for (i = [0 : ceil(nX / 2)]) {
+                  translate([-1 * i*(meshSolid+meshSpace), -1 * (gridY / 2), 0]) 
+                     cube(size=[meshSolid, gridY, thickness]);
+               } /* endfor */
+            } /* endunion */
+         
+         /* Draw the lines parallel to the x axis. */
+         translate([0, -1 * (meshSolid / 2), -1 * (thickness / 2)])
+            union() {
+               for (i = [0 : ceil(nY / 2)]) {
+                  translate([-1 * (gridX / 2), i*(meshSolid+meshSpace), 0]) 
+                     cube(size=[gridX, meshSolid, thickness]);
+               } /* endfor */
+               for (i = [0 : ceil(nY / 2)]) {
+                  translate([-1 * (gridX / 2), -1 * i*(meshSolid+meshSpace), 0]) 
+                     cube(size=[gridX, meshSolid, thickness]);
+               } /* endfor */
+            } /* endunion */
+      } /* endunion */
+
+      /* Slice off all the extra line widths on the edges. */
+      cube (size=[gridX,gridY,thickness], center=true);
+
+   } /* endintersection */
+
 } /* endmodule */
 
 
-grid(20, 20, 0.1, 0.1, 1, 9, 5);
+grid(21, 41, 0, 0, 2, 8, 5);
    
