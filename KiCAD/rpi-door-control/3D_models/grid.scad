@@ -9,32 +9,51 @@ module grid(
    meshSpace,    // width of space part of grid
    thickness) {  // z height 
 
-
+   /* Calculate the size of the dimensions of the meshed area. */
    meshX=gridX-(borderX*2);
    meshY=gridY-(borderY*2);
-   nX=meshX/(meshSolid+meshSpace);
-   nY=meshY/(meshSolid+meshSpace);
-   
+
+   echo (meshX,  meshY);
+
+   /* Calculate the number of lines in the meshed area. */
+   nX=floor(meshX/(meshSolid+meshSpace));
+   nY=floor(meshY/(meshSolid+meshSpace));
+   gridSize = meshSolid + meshSpace;
+   echo (nX, nY, gridSize);
+
    difference() {
-      cube (size=[gridX,gridY,thickness],center=true);
-      cube (size=[meshX,meshY,thickness],center=true);
+      cube (size=[gridX,gridY,thickness + 20], center=true);
+      cube (size=[meshX,meshY,thickness + 20], center=true);
    } /* enddifference */
    
-   for (i=[0:nX]) {
-      translate([-(meshX/2)+i*(meshSolid+meshSpace),
-                 -meshY/2,
-                 -thickness/2]) 
-         cube(size=[meshSolid,meshY,thickness],center=false);
-   } /* endfor */
+   /* Center the grid. */
+   translate([-1 * meshSolid / 2, 
+              -1 * meshSolid / 2,
+              -1 * (thickness / 2)])
+      
+      union() {
+      /* Draw the lines parallel to y axis. */
+      for (i = [0 : floor(nX / 2)]) {
+         translate([i*(meshSolid+meshSpace), -1 * (meshY / 2), 0]) 
+            cube(size=[meshSolid,meshY + meshSolid,thickness]);
+      } /* endfor */
+      for (i = [0 : floor(nX / 2)]) {
+         translate([-1 * i*(meshSolid+meshSpace), -1 * (meshY / 2), 0]) 
+            cube(size=[meshSolid,meshY + meshSolid,thickness]);
+      } /* endfor */
    
-   for (i=[0:nY]) {
-      translate([-meshX/2,
-                 -(meshY/2)+i*(meshSolid+meshSpace),
-                 -thickness/2]) 
-         cube(size=[meshX,meshSolid,thickness],center=false);
-   } /* endfor */
-
+      /* Draw the lines parallel to the x axis. */
+      for (i = [0 : floor(nY / 2)]) {
+         translate([-1 * (meshX / 2), i*(meshSolid+meshSpace), 0]) 
+            cube(size=[meshX + meshSolid, meshSolid, thickness]);
+      } /* endfor */
+      for (i = [0 : floor(nY / 2)]) {
+         translate([-1 * (meshX / 2), -1 * i*(meshSolid+meshSpace), 0]) 
+            cube(size=[meshX + meshSolid, meshSolid, thickness]);
+      } /* endfor */
+   }
 } /* endmodule */
 
-grid(120, 70, 10, 10, 1, 9, 10);
+
+grid(10, 20, 0.2, 0.2, 1, 5, 5);
    
