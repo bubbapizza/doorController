@@ -21,39 +21,40 @@ module grid(
    gridSize = meshSolid + meshSpace;
    echo (nX, nY, gridSize);
 
+
+   /* Draw the border box centered. */
    difference() {
-      cube (size=[gridX,gridY,thickness + 20], center=true);
-      cube (size=[meshX,meshY,thickness + 20], center=true);
+      cube (size=[gridX,gridY,thickness], center=true);
+      cube (size=[meshX,meshY,thickness], center=true);
    } /* enddifference */
    
-   /* Center the grid. */
-   translate([-1 * meshSolid / 2, 
-              -1 * meshSolid / 2,
-              -1 * (thickness / 2)])
+
+   /* Draw the grid centered. */
+   translate([0, 0, -1 * (thickness / 2)])
       
       union() {
       /* Draw the lines parallel to y axis. */
       for (i = [0 : floor(nX / 2)]) {
-         translate([i*(meshSolid+meshSpace), -1 * (meshY / 2), 0]) 
-            cube(size=[meshSolid,meshY + meshSolid,thickness]);
+         translate([i*(meshSolid+meshSpace), -1 * (gridY / 2), 0]) 
+            cube(size=[meshSolid, gridY, thickness]);
       } /* endfor */
       for (i = [0 : floor(nX / 2)]) {
-         translate([-1 * i*(meshSolid+meshSpace), -1 * (meshY / 2), 0]) 
-            cube(size=[meshSolid,meshY + meshSolid,thickness]);
+         translate([-1 * i*(meshSolid+meshSpace), (gridY / 2), 0]) 
+            cube(size=[meshSolid, gridY, thickness]);
       } /* endfor */
    
       /* Draw the lines parallel to the x axis. */
       for (i = [0 : floor(nY / 2)]) {
-         translate([-1 * (meshX / 2), i*(meshSolid+meshSpace), 0]) 
-            cube(size=[meshX + meshSolid, meshSolid, thickness]);
+         translate([-1 * (gridX / 2), i*(meshSolid+meshSpace), 0]) 
+            cube(size=[gridX, meshSolid, thickness]);
       } /* endfor */
       for (i = [0 : floor(nY / 2)]) {
-         translate([-1 * (meshX / 2), -1 * i*(meshSolid+meshSpace), 0]) 
-            cube(size=[meshX + meshSolid, meshSolid, thickness]);
+         translate([-1 * (gridX / 2), -1 * i*(meshSolid+meshSpace), 0]) 
+            cube(size=[gridX, meshSolid, thickness]);
       } /* endfor */
    }
 } /* endmodule */
 
 
-grid(10, 20, 0.2, 0.2, 1, 5, 5);
+grid(20, 20, 0.1, 0.1, 1, 9, 5);
    
