@@ -9,10 +9,10 @@ $fn = 16;
 x = 148;
 y = 70;
 z = 15;
-x_border = 10;
-y_border = 10;
-grid_size = 20;
-grid_line_width = 1;
+x_border = 20;
+y_border = 5;
+grid_size = 10;
+grid_line_width = 0.5;
 
 /* The grid pocket is how much to drop the top of the grid by.  This
    allows for some padding to be added underneath the circuit board. */
@@ -129,6 +129,24 @@ difference() {
               (y / 2) + (mount_hole_dist / 2), 
               z - bolt_head_height])
       cylinder(h = z, r = bolt_head_dia / 2);
+
+   /* Subtract some holes for the t-nuts. */
+   translate([mount_hole_x_offset, 
+              (y / 2) - (mount_hole_dist / 2), 
+              0])
+      cylinder(h = 2, r = bolt_head_dia / 2);
+   translate([mount_hole_x_offset, 
+              (y / 2) + (mount_hole_dist / 2), 
+              0])
+      cylinder(h =  2, r = bolt_head_dia / 2);
+   translate([x - mount_hole_x_offset, 
+              (y / 2) - (mount_hole_dist / 2), 
+              0])
+      cylinder(h = 2, r = bolt_head_dia / 2);
+   translate([x - mount_hole_x_offset, 
+              (y / 2) + (mount_hole_dist / 2), 
+              0])
+      cylinder(h = 2, r = bolt_head_dia / 2);
 
    /* Subtract the grid pocket. */
    translate([x_border, y_border, z - grid_pocket])
