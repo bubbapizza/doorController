@@ -1,7 +1,7 @@
 /* This is a jig for holding the rpi door controller PCB
    on a Sherline 5000 mill for isolation milling.  */
 
-$fn = 12;
+$fn = 16;
 
 /* Set overall piece dimensions. */
 x = 148;
@@ -11,7 +11,7 @@ x_border = 14;
 y_border = 10;
 
 /* Set the screw size in mm. */
-screw_size = 4.1;
+screw_size = 4.2;
 
 
 difference() {

@@ -8,28 +8,26 @@ $fn = 16;
 /* Set overall piece dimensions. */
 x = 148;
 y = 70;
-z = 15;
-x_border = 20;
-y_border = 5;
-grid_size = 10;
-grid_line_width = 0.5;
+z = 8;
+x_border = 10;
+y_border = 4;
+grid_size = 17;
+grid_line_width = 1;
+offset_z = 30;
 
-/* The grid pocket is how much to drop the top of the grid by.  This
-   allows for some padding to be added underneath the circuit board. */
-grid_pocket = 3;
 
 
 /* Set the screw size in mm. */
-screw_size = 4.1;
+screw_size = 4.2;
 
 /* 
  *  Set the mounting bolt dimensions. 
  */
 
 /* Use a #10 socket head cap screw. */
-bolt_dia = (0.19 * 25.4) + 0.1; 
+bolt_dia = (0.19 * 25.4) + 0.5; 
 bolt_head_dia = (0.312 * 25.4) + 0.5;   
-bolt_head_height = (0.19 * 25.4) + 2;
+// bolt_head_height = (0.19 * 25.4) + 2;
 
 /* Set the distance between mounting holes. */
 mount_hole_dist = (1.5 * 25.4); // 1.5 in
@@ -47,43 +45,43 @@ difference() {
          grid(x, y, x_border, y_border, grid_line_width, 
               grid_size - grid_line_width, z);
    
-      cylinder(h = z, r = screw_size * 1.5);
-      translate([x, 0, 0]) cylinder(h = z, r = screw_size * 1.5);
-      translate([0, y, 0]) cylinder(h = z, r = screw_size * 1.5);
-      translate([x, y, 0]) cylinder(h = z, r = screw_size * 1.5);
-      translate([x / 2, 0, 0]) cylinder(h = z, r = screw_size * 1.5);
-      translate([x / 2, y, 0]) cylinder(h = z, r = screw_size * 1.5);
+      cylinder(h = offset_z, r = screw_size * 1.5);
+      translate([x, 0, 0]) cylinder(h = offset_z, r = screw_size * 1.5);
+      translate([0, y, 0]) cylinder(h = offset_z, r = screw_size * 1.5);
+      translate([x, y, 0]) cylinder(h = offset_z, r = screw_size * 1.5);
+      translate([x / 2, 0, 0]) cylinder(h = offset_z, r = screw_size * 1.5);
+      translate([x / 2, y, 0]) cylinder(h = offset_z, r = screw_size * 1.5);
    } /* endunion */
    
 
    translate([0, 0, 0]) {
       nutHole(size=4, tolerance=0.2);
-      cylinder(h = z, r = screw_size / 2);
+      cylinder(h = offset_z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x, 0, 0]) {
       nutHole(size=4, tolerance=0.2);
-      cylinder(h = z, r = screw_size / 2);
+      cylinder(h = offset_z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([0, y, 0]) {
       nutHole(size=4, tolerance=0.2);
-      cylinder(h = z, r = screw_size / 2);
+      cylinder(h = offset_z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x, y, 0]) {
       nutHole(size=4, tolerance=0.2);
-      cylinder(h = z, r = screw_size / 2);
+      cylinder(h = offset_z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x / 2, 0, 0]) {
       nutHole(size=4, tolerance=0.2);
-      cylinder(h = z, r = screw_size / 2);
+      cylinder(h = offset_z, r = screw_size / 2);
    } /* endtranslate */
 
    translate([x / 2, y, 0]) {
       nutHole(size=4, tolerance=0.2);
-      cylinder(h = z, r = screw_size / 2);
+      cylinder(h = offset_z, r = screw_size / 2);
    } /* endtranslate */
 
 
@@ -112,23 +110,6 @@ difference() {
       cylinder(h = z, r = bolt_dia / 2);
 
 
-   /* Subtract the bolt head holes. */
-   translate([mount_hole_x_offset, 
-              (y / 2) - (mount_hole_dist / 2), 
-              z - bolt_head_height])
-      cylinder(h = z, r = bolt_head_dia / 2);
-   translate([mount_hole_x_offset, 
-              (y / 2) + (mount_hole_dist / 2), 
-              z - bolt_head_height])
-      cylinder(h = z, r = bolt_head_dia / 2);
-   translate([x - mount_hole_x_offset, 
-              (y / 2) - (mount_hole_dist / 2), 
-              z - bolt_head_height])
-      cylinder(h = z, r = bolt_head_dia / 2);
-   translate([x - mount_hole_x_offset, 
-              (y / 2) + (mount_hole_dist / 2), 
-              z - bolt_head_height])
-      cylinder(h = z, r = bolt_head_dia / 2);
 
    /* Subtract some holes for the t-nuts. */
    translate([mount_hole_x_offset, 
@@ -148,8 +129,5 @@ difference() {
               0])
       cylinder(h = 2, r = bolt_head_dia / 2);
 
-   /* Subtract the grid pocket. */
-   translate([x_border, y_border, z - grid_pocket])
-      cube(size=[x - (x_border * 2), y - (y_border * 2), grid_pocket]);
 } /* enddifference */
 
