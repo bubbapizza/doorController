@@ -7,8 +7,8 @@ $fn = 16;
 
 /* Set overall piece dimensions. */
 x = 148;
-y = 70;
-z = 15;
+y = 55;
+z = 18;
 x_border = 10;
 y_border = 10;
 grid_size = 20;
@@ -29,7 +29,7 @@ screw_size = 4.1;
 /* Use a #10 socket head cap screw. */
 bolt_dia = (0.19 * 25.4) + 0.1; 
 bolt_head_dia = (0.312 * 25.4) + 0.5;   
-bolt_head_height = (0.19 * 25.4) + 2;
+bolt_head_height = 2;
 
 /* Set the distance between mounting holes. */
 mount_hole_dist = (1.5 * 25.4); // 1.5 in
