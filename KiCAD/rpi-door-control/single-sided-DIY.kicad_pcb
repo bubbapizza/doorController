@@ -3,7 +3,7 @@
   (general
     (links 48)
     (no_connects 0)
-    (area 77.712499 75.924999 203.075001 126.075001)
+    (area 64.5 64.7 216.5 138.7)
     (thickness 1.6)
     (drawings 23)
     (tracks 175)
@@ -29,7 +29,7 @@
     (18 B.Paste user)
     (19 F.Paste user)
     (20 B.SilkS user)
-    (21 F.SilkS user)
+    (21 F.SilkS user hide)
     (22 B.Mask user)
     (23 F.Mask user)
     (24 Dwgs.User user)
@@ -64,7 +64,7 @@
     (pad_size 4.064 4.064)
     (pad_drill 3.048)
     (pad_to_mask_clearance 0.2)
-    (aux_axis_origin 80 77.5)
+    (aux_axis_origin 92.5 110.6)
     (visible_elements 7FFFFFFF)
     (pcbplotparams
       (layerselection 1)
