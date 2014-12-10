@@ -1,6 +1,6 @@
-update=9/19/2014 11:16:56 AM
+update=12/9/2014 9:34:56 PM
 version=1
-last_client=eeschema
+last_client=kicad
 [cvpcb]
 version=1
 NetITyp=0
@@ -11,8 +11,6 @@ LibDir=
 NetType=0
 [cvpcb/libraries]
 EquName1=devcms
-[general]
-version=1
 [pcbnew]
 version=1
 LastNetListRead=
@@ -87,3 +85,5 @@ LibName29=contrib
 LibName30=valves
 LibName31=Carlolib-disc
 LibName32=custom-parts
+[general]
+version=1

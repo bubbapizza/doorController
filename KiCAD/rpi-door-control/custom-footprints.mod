@@ -1,4 +1,4 @@
-PCBNEW-LibModule-V1  12/6/2014 2:25:18 PM
+PCBNEW-LibModule-V1  12/8/2014 6:38:20 PM
 # encoding utf-8
 Units mm
 $INDEX
@@ -197,7 +197,7 @@ Ne 0 ""
 Po 3.81 0
 $EndPAD
 $SHAPE3D
-Na "pin_array\\pins_array_4x1.wrl"
+Na "3D_models/Socket_Strip_Angled_1x04.wrl"
 Sc 1 1 1
 Of 0 0 0
 Ro 0 0 0
