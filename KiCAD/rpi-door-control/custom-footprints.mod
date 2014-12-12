@@ -1,4 +1,4 @@
-PCBNEW-LibModule-V1  12/8/2014 6:38:20 PM
+PCBNEW-LibModule-V1  12/11/2014 10:28:47 PM
 # encoding utf-8
 Units mm
 $INDEX
@@ -32,6 +32,12 @@ At STD N 00E0FFFF
 Ne 0 ""
 Po 2.5 0
 $EndPAD
+$SHAPE3D
+Na "3D_models/TDK_buzzer.wrl"
+Sc 0.394 0.394 0.394
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
 $EndMODULE BUZZER_SMALL
 $MODULE C2_KF103
 Po 0 0 0 15 535BDB0E 00000000 ~~
