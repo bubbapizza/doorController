@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 12/9/2014 10:57:11 PM
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 12/13/2014 11:53:17 AM
 
 BeginCmp
 TimeStamp = /5321D51C;
@@ -15,10 +15,10 @@ IdModule  = LED-5MM;
 EndCmp
 
 BeginCmp
-TimeStamp = /5321D451;
+TimeStamp = /548C595F;
 Reference = J2;
 ValeurCmp = RJ45;
-IdModule  = pin_array_4x2;
+IdModule  = ;
 EndCmp
 
 BeginCmp
@@ -26,6 +26,20 @@ TimeStamp = /5321D611;
 Reference = P5;
 ValeurCmp = CONN_4;
 IdModule  = PIN_ARRAY_4x1_RIGHT_ANGLE;
+EndCmp
+
+BeginCmp
+TimeStamp = /548C596E;
+Reference = P6;
+ValeurCmp = CONN_6;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /548C566E;
+Reference = P7;
+ValeurCmp = CONN_6;
+IdModule  = WIRE_HOLES_6;
 EndCmp
 
 BeginCmp
