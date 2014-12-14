@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 12/13/2014 12:08:07 PM
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 12/14/2014 9:37:11 AM
 
 BeginCmp
 TimeStamp = /5321D51C;
@@ -39,7 +39,7 @@ BeginCmp
 TimeStamp = /548C566E;
 Reference = P7;
 ValeurCmp = CONN_6;
-IdModule  = WIRE_HOLES_6;
+IdModule  = PINS_3x2_WIDE_SMD;
 EndCmp
 
 BeginCmp
