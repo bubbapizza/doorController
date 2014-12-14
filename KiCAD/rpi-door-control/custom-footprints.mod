@@ -1,4 +1,4 @@
-PCBNEW-LibModule-V1  12/13/2014 11:40:33 AM
+PCBNEW-LibModule-V1  12/14/2014 11:06:14 AM
 # encoding utf-8
 Units mm
 $INDEX
@@ -265,54 +265,54 @@ Ro 0 0 90
 $EndSHAPE3D
 $EndMODULE RELAY_AZ942
 $MODULE WIRE_HOLES_6
-Po 0 0 0 15 548C6B9B 00000000 ~~
+Po 0 0 0 15 548DB573 00000000 ~~
 Li WIRE_HOLES_6
 Sc 0
 AR 
 Op 0 0 0
 T0 0.1 -2 1 1 0 0.15 N V 21 N "BARE_WIRES"
-T1 0.1 2.1 1 1 0 0.15 N V 21 N "W"
+T1 0.1 2.1 1 1 0 0.15 N V 21 N "P"
 $PAD
 Sh "1" C 2 2 0 0 0
 Dr 1 0 0
 At STD N 00E0FFFF
 Ne 0 ""
-Po -3 -4
+Po -8 0
 $EndPAD
 $PAD
 Sh "2" C 2 2 0 0 0
 Dr 1 0 0
 At STD N 00E0FFFF
 Ne 0 ""
-Po 3 -4
+Po 8 0
 $EndPAD
 $PAD
 Sh "4" C 2 2 0 0 0
 Dr 1 0 0
 At STD N 00E0FFFF
 Ne 0 ""
-Po -3 0
+Po -8 -3
 $EndPAD
 $PAD
 Sh "3" C 2 2 0 0 0
 Dr 1 0 0
 At STD N 00E0FFFF
 Ne 0 ""
-Po 3 0
+Po 8 3
 $EndPAD
 $PAD
 Sh "6" C 2 2 0 0 0
 Dr 1 0 0
 At STD N 00E0FFFF
 Ne 0 ""
-Po -3 4
+Po -8 3
 $EndPAD
 $PAD
 Sh "5" C 2 2 0 0 0
 Dr 1 0 0
 At STD N 00E0FFFF
 Ne 0 ""
-Po 3 4
+Po 8 -3
 $EndPAD
 $EndMODULE WIRE_HOLES_6
 $EndLIBRARY
