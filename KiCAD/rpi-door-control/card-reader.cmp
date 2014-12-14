@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 12/13/2014 11:53:17 AM
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 12/13/2014 12:08:07 PM
 
 BeginCmp
 TimeStamp = /5321D51C;
@@ -57,8 +57,8 @@ IdModule  = R3-LARGE_PADS;
 EndCmp
 
 BeginCmp
-TimeStamp = /532A1C21;
-Reference = U2;
+TimeStamp = /548C7243;
+Reference = U1;
 ValeurCmp = BUZZER;
 IdModule  = BUZZER_SMALL;
 EndCmp
