@@ -1,6 +1,6 @@
-update=12/9/2014 9:34:56 PM
+update=12/16/2014 5:56:13 PM
 version=1
-last_client=kicad
+last_client=eeschema
 [cvpcb]
 version=1
 NetITyp=0
@@ -44,6 +44,8 @@ LibName9=led
 LibName10=dip_sockets
 LibName11=custom-footprints
 LibName12=ohw_logo
+[general]
+version=1
 [eeschema]
 version=1
 LibDir=
@@ -85,5 +87,3 @@ LibName29=contrib
 LibName30=valves
 LibName31=Carlolib-disc
 LibName32=custom-parts
-[general]
-version=1

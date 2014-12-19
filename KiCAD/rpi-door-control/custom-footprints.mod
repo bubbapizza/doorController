@@ -1,4 +1,4 @@
-PCBNEW-LibModule-V1  12/14/2014 9:49:06 AM
+PCBNEW-LibModule-V1  12/18/2014 8:32:10 AM
 # encoding utf-8
 Units mm
 $INDEX
@@ -163,53 +163,54 @@ Po 5.8 0
 $EndPAD
 $EndMODULE MONO_JACK
 $MODULE PINS_3x2_WIDE_SMD
-Po 0 0 0 15 548DA35F 00000000 ~~
+Po 0 0 0 15 5492D74D 00000000 ~~
 Li PINS_3x2_WIDE_SMD
 Sc 0
-AR 
+AR /548C566E
 Op 0 0 0
-T0 0.1 -2 1 1 0 0.15 N V 21 N "SMD_PINS"
-T1 0.1 2.1 1 1 0 0.15 N V 21 N "P"
+T0 -9.4 -4.9 1 1 0 0.15 N V 21 N "P7-416"
+T1 0.1 2.1 1 1 0 0.15 N V 21 N "CONN_6"
+T2 4.1 -4.9 1 1 0 0.15 N V 21 N "text"
 $PAD
 Sh "1" R 3.1 1 0 0 0
 Dr 0 0 0
 At SMD N 00540001
-Ne 0 ""
+Ne 1 "+5V"
 Po -7.45 0
 $EndPAD
 $PAD
 Sh "2" R 3.1 1 0 0 0
 Dr 0 0 0
 At SMD N 00540001
-Ne 0 ""
+Ne 4 "/RED"
 Po 10.55 0
 $EndPAD
 $PAD
 Sh "4" R 3.1 1 0 0 0
 Dr 0 0 0
 At SMD N 00540001
-Ne 0 ""
+Ne 5 "/RFID TXD"
 Po -10.55 -2.54
 $EndPAD
 $PAD
 Sh "3" R 3.1 1 0 0 0
 Dr 0 0 0
 At SMD N 00540001
-Ne 0 ""
+Ne 3 "/GREEN"
 Po 7.45 2.54
 $EndPAD
 $PAD
 Sh "6" R 3.1 1 0 0 0
 Dr 0 0 0
 At SMD N 00540001
-Ne 0 ""
+Ne 6 "GND"
 Po -10.55 2.54
 $EndPAD
 $PAD
 Sh "5" R 3.1 1 0 0 0
 Dr 0 0 0
 At SMD N 00540001
-Ne 0 ""
+Ne 2 "/BELL"
 Po 7.45 -2.54
 $EndPAD
 $EndMODULE PINS_3x2_WIDE_SMD
