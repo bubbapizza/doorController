@@ -15,7 +15,7 @@
   (page A)
   (title_block 
     (title "Card Reader Board")
-    (rev 0.4.1)
+    (rev 0.4.2)
     (company SBW)
     (comment 1 "To be used with Parallax serial RFID reader")
   )
