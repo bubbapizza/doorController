@@ -1,16 +1,6 @@
-update=12/16/2014 5:56:13 PM
+update=12/24/2014 5:49:34 PM
 version=1
-last_client=eeschema
-[cvpcb]
-version=1
-NetITyp=0
-NetIExt=.net
-PkgIExt=.pkg
-NetDir=
-LibDir=
-NetType=0
-[cvpcb/libraries]
-EquName1=devcms
+last_client=cvpcb
 [pcbnew]
 version=1
 LastNetListRead=
@@ -31,7 +21,6 @@ DrawSegmentWidth=0.200000000000
 BoardOutlineThickness=0.150000000000
 ModuleOutlineThickness=0.150000000000
 [pcbnew/libraries]
-LibDir=
 LibName1=sockets
 LibName2=connect
 LibName3=discret
@@ -43,7 +32,7 @@ LibName8=valves
 LibName9=led
 LibName10=dip_sockets
 LibName11=custom-footprints
-LibName12=ohw_logo
+LibDir=
 [general]
 version=1
 [eeschema]
@@ -87,3 +76,8 @@ LibName29=contrib
 LibName30=valves
 LibName31=Carlolib-disc
 LibName32=custom-parts
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms
